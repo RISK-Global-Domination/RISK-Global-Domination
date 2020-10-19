@@ -1,4 +1,4 @@
-# RISK-Global-Donimation
+# RISK-Global-Domination
  A simplified version of the classic strategy game RISK
  
  ### Group Members:
