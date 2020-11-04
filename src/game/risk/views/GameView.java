@@ -6,6 +6,9 @@ import java.util.Scanner;
 import game.risk.models.Country;
 import game.risk.models.Player;
 
+/**
+ *RETURN THE REPORT OF THE GAME, FETCHES PLAYERS, THE COUNTRIES ATTACKED AND ERRORS.
+ */
 public class GameView {
 
 	// Attributes...

@@ -2,6 +2,9 @@ package game.risk.controllers;
 
 import game.risk.views.GameView;
 
+/**
+ *GAME'S DRIVER
+ */
 public class Driver {
 
 	// 

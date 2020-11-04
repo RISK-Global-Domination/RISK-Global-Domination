@@ -8,6 +8,9 @@ import java.util.Scanner;
 import game.risk.models.Continent;
 import game.risk.models.Country;
 
+/**
+ *FETCHES THE COUNTRIES AND CONTINENTS NAMES FROM THE TEXT FILES.
+ */
 public class DataFetcher {
 
 	private ArrayList<Continent> continents;
@@ -35,13 +38,13 @@ public class DataFetcher {
 	}
 
 	private void readCountries() {
-		
-		ArrayList<String> data = readFile("countries.txt");
+
+		ArrayList<String> data = readFile("MapData/countries.txt");
 		for(String each: data) {
 			countries.add(new Country(each));
 		}
 		// Adjacent..
-		data = readFile("joining.txt");
+		data = readFile("MapData/joining.txt");
 		for(String each: data) {
 			
 			String[] tokens = each.split(",");
@@ -78,7 +81,7 @@ public class DataFetcher {
 	
 	private void readContinents() {
 
-		ArrayList<String> data = readFile("continents.txt");
+		ArrayList<String> data = readFile("MapData/continents.txt");
 		for(String each: data) {
 			
 			String[] tokens = each.split(",");
@@ -106,6 +109,7 @@ public class DataFetcher {
 			}
 			scan.close();
 		} catch (FileNotFoundException e) {
+			System.out.println("MapData file not found!!");
 		}
 		return list;
 		

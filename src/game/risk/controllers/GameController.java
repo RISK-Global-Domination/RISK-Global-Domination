@@ -7,6 +7,11 @@ import java.util.Random;
 import game.risk.models.Player;
 import game.risk.views.GameView;
 
+/**
+ *EXECUTES THE GAME'S STATUS, ALLOWS THE COMMAND OF FORFITING,
+ * CONQUERING A COUNTRY WITH THE NUMBER OF ARMIES YOU WANT TO GO WITH,
+ * ROLL DICE, END A TURN AND GET THE WINNER OF THE GAME.
+ */
 public class GameController {
 
 	private GameModel model;

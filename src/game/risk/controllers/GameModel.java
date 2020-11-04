@@ -6,6 +6,9 @@ import java.util.Collections;
 import game.risk.models.Continent;
 import game.risk.models.Country;
 
+/**
+ *GAME'S MODEL
+ */
 public class GameModel {
 
 	private ArrayList<Country> countries;
