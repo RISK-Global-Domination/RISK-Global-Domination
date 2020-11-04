@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="RISK Global Domination:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/RISK_Global_Domination_jar</output-path>
+    <root id="archive" name="RISK Global Domination.jar">
+      <element id="module-output" name="RISK Global Domination" />
+      <element id="module-source" name="RISK Global Domination" />
+    </root>
+  </artifact>
+</component>
