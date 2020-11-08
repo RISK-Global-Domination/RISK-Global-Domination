@@ -1,6 +1,6 @@
-package game.risk.controllers;
+package game.risk.controller;
 
-import game.risk.views.GameView;
+import game.risk.view.GameView;
 
 /**
  *GAME'S DRIVER

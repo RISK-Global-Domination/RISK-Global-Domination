@@ -1,11 +1,11 @@
-package game.risk.controllers;
+package game.risk.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import game.risk.models.Player;
-import game.risk.views.GameView;
+import game.risk.model.Player;
+import game.risk.view.GameView;
 
 /**
  *EXECUTES THE GAME'S STATUS, ALLOWS THE COMMAND OF FORFITING,

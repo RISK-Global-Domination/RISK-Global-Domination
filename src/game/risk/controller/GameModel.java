@@ -1,10 +1,10 @@
-package game.risk.controllers;
+package game.risk.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import game.risk.models.Continent;
-import game.risk.models.Country;
+import game.risk.model.Continent;
+import game.risk.model.Country;
 
 /**
  *GAME'S MODEL

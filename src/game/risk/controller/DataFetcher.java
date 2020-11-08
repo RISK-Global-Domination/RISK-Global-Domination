@@ -1,12 +1,12 @@
-package game.risk.controllers;
+package game.risk.controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import game.risk.models.Continent;
-import game.risk.models.Country;
+import game.risk.model.Continent;
+import game.risk.model.Country;
 
 /**
  *FETCHES THE COUNTRIES AND CONTINENTS NAMES FROM THE TEXT FILES.
@@ -39,12 +39,12 @@ public class DataFetcher {
 
 	private void readCountries() {
 
-		ArrayList<String> data = readFile("MapData/countries.txt");
+		ArrayList<String> data = readFile("mapdata/countries.txt");
 		for(String each: data) {
 			countries.add(new Country(each));
 		}
 		// Adjacent..
-		data = readFile("MapData/joining.txt");
+		data = readFile("mapdata/joining.txt");
 		for(String each: data) {
 			
 			String[] tokens = each.split(",");
@@ -81,7 +81,7 @@ public class DataFetcher {
 	
 	private void readContinents() {
 
-		ArrayList<String> data = readFile("MapData/continents.txt");
+		ArrayList<String> data = readFile("mapdata/continents.txt");
 		for(String each: data) {
 			
 			String[] tokens = each.split(",");
