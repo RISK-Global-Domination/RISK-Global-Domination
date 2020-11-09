@@ -107,7 +107,7 @@ public class GameView {
 
         mainTextPanel = new JPanel();
         mainTextPanel.setBounds(100, 100, 600, 250);
-        mainTextPanel.setBackground(Color.GRAY);
+        mainTextPanel.setBackground(Color.WHITE);
         con.add(mainTextPanel);
 
         mainTextArea = new JTextArea("Enter player names and press OK");
@@ -299,7 +299,7 @@ public class GameView {
             }
             if (count != 1) {
                 System.out.print("Select number where to attack: ");
-                number = Integer.parseInt(scan.nextLine());
+               number = Integer.parseInt(scan.nextLine());
                 if (number >= 1 && number < count) {
                     int index = 0;
                     count = 1;
@@ -325,12 +325,12 @@ public class GameView {
 
         }
         return number;
-
     }
 
     public int numberOfSoliders() {
 
         System.out.print("\nSelect number of soliders: ");
+
         return Integer.parseInt(scan.nextLine());
 
     }
