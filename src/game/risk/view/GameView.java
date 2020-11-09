@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 import game.risk.controller.GameController;
 import game.risk.model.Country;
@@ -43,8 +44,9 @@ public class GameView {
     private JPanel topPanel;
     private JLabel topLabel;
     private JPanel middlePanel;
-    private JPanel bottomPanel;
+    private JPanel bottomPanel2;
     private JTextArea middleTextArea;
+    private JPanel bottomPanel1;
 
     // constructor
     public GameView() {
@@ -192,10 +194,15 @@ public class GameView {
         middleTextArea.setLineWrap(true);
         middlePanel.add(middleTextArea);
 
-        bottomPanel = new JPanel();
-        bottomPanel.setBounds(200, 650, 800, 100);
-        bottomPanel.setBackground(Color.GRAY);
-        con.add(bottomPanel);
+        bottomPanel1 = new JPanel();
+        bottomPanel1.setBounds(200, 650, 350, 200);
+        bottomPanel1.setBackground(Color.GRAY);
+        con.add(bottomPanel1);
+
+        bottomPanel2 = new JPanel();
+        bottomPanel2.setBounds(600, 650, 400, 200);
+        // bottomPanel2.setBackground(Color.white);
+        con.add(bottomPanel2);
 
 //		for(int i = 0; i < playerCount; i++) {
 //			JLabel pLabel = new JLabel("Player " + i + 1);
@@ -228,6 +235,7 @@ public class GameView {
             }
         }
 
+        System.out.println(report);
         middleTextArea.setText(report);
 
     }
@@ -255,7 +263,6 @@ public class GameView {
 
         return this.getCountryNumber(player, "You have " + number + " extra soliders\n"
                 + "Select number which country you want to land soliders: ");
-
     }
 
     public int getCountryNumber(Player player, String message) {
@@ -269,7 +276,23 @@ public class GameView {
             }
             if (count != 1) {
                 System.out.print(message);
-                number = Integer.parseInt(scan.nextLine());
+                // number = Integer.parseInt(scan.nextLine());
+//                number = Integer.parseInt(JOptionPane.showInputDialog("Enter number!"));
+//                number = Integer.parseInt(JOptionPane.showInternalInputDialog(bottomPanel, "Enter!"));
+                int[] a = IntStream.range(1, count).toArray();
+
+                Object[] options = new Object[a.length];
+
+                // copy elements from object array to integer array
+                for (int i = 0; i < a.length; i++) {
+                    options[i] = (Object) a[i];
+                }
+
+
+                number = (int)(JOptionPane.showInputDialog(bottomPanel1, "Select country number",
+                        "To country", JOptionPane.ERROR_MESSAGE, null, options, options[0]));
+
+
                 if (number >= 1 && number < count) {
                     number--;
                     break;
@@ -299,7 +322,21 @@ public class GameView {
             }
             if (count != 1) {
                 System.out.print("Select number where to attack: ");
-               number = Integer.parseInt(scan.nextLine());
+               // number = Integer.parseInt(scan.nextLine());
+                // number = Integer.parseInt(JOptionPane.showInputDialog("Enter number!"));
+
+                int[] a = IntStream.range(1, count).toArray();
+
+                Object[] options = new Object[a.length];
+
+                // copy elements from object array to integer array
+                for (int i = 0; i < a.length; i++) {
+                    options[i] = (Object) a[i];
+                }
+
+                number = (int)(JOptionPane.showInputDialog(null, "Select country number",
+                        "To country", JOptionPane.ERROR_MESSAGE, null, options, options[0]));
+
                 if (number >= 1 && number < count) {
                     int index = 0;
                     count = 1;
@@ -331,7 +368,9 @@ public class GameView {
 
         System.out.print("\nSelect number of soliders: ");
 
-        return Integer.parseInt(scan.nextLine());
+        int numberOfSoldiers = Integer.parseInt(JOptionPane.showInputDialog("Select Soldiers Number"));
+
+        return numberOfSoldiers;
 
     }
 
