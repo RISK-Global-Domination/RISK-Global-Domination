@@ -7,36 +7,36 @@ import game.risk.model.Continent;
 import game.risk.model.Country;
 
 /**
- *GAME'S MODEL
+ * GAME'S MODEL
  */
 public class GameModel {
 
-	private ArrayList<Country> countries;
-	private ArrayList<Continent> continents;
-	private DataFetcher fetcher;
-	
-	public GameModel() {
-		
-		fetcher = new DataFetcher();
-		this.continents = fetcher.getContinents();
-		this.countries = fetcher.getCountries();
-		
-	}
+    private ArrayList<Country> countries;
+    private ArrayList<Continent> continents;
+    private DataFetcher fetcher;
 
-	public ArrayList<Country> getCountries() {
-		return countries;
-	}
+    public GameModel() {
 
-	public ArrayList<Continent> getContinents() {
-		return continents;
-	}
+        fetcher = new DataFetcher();
+        this.continents = fetcher.getContinents();
+        this.countries = fetcher.getCountries();
 
-	public DataFetcher getFetcher() {
-		return fetcher;
-	}
-	
-	public void shuffleCountries() {
-		Collections.shuffle(countries);
-	}
-	
+    }
+
+    public ArrayList<Country> getCountries() {
+        return countries;
+    }
+
+    public ArrayList<Continent> getContinents() {
+        return continents;
+    }
+
+    public DataFetcher getFetcher() {
+        return fetcher;
+    }
+
+    public void shuffleCountries() {
+        Collections.shuffle(countries);
+    }
+
 }
