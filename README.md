@@ -26,17 +26,8 @@
 13) When only one player remains they have won
 
 ### Design Decisions
-We mostly used the ArrayList in the whole program to keep track of the data like list of countries, continents and players. 
+The purpose of this milestone is to implement a GUI-based version of the Game using MVC design. We will have a working user interface where the user input is via mouse. 
 
-For the execution of program, 3 text files we created, which contains the name of countries, their adjacent countries and a 
-text file which has all continents and countries within it. The program will ask for the 
-number of players and their names and then start the game. It will iterate through all 
-players for their turn. It will give 2 extra soldiers in each turn and user can place 
-them in any country. The program will ask for country from which we have to generate 
-attack and the country on which we have to attack, then it will drop 1 soldier in own 
-country and attack with remaining soldiers. 
+In Milestone 1, we already had the MVC model in our code, therefor what we needed to do for this Milestone is to add the JFrame. For the Game Controller, we decided to split the execution to 3 parts, as we would like to execute asking for the number of players,  setting up and starting the game seperately. We added listeners to these events. In the GameView, we set up the game's frame by designing what we would appear to on the screen of the user. We also designed the buttons to generate the different events, for example when we select 2 players, it will ask for two player's names and play the game for 2 players. We also added test cases for the Model. 
 
-If attacker have the more wins than it will successfully conquer the country and 
-start the process of fortification. It can move soldiers one time in a single turn. 
-It will keep going until 1 player defeated all other players and conquered the 
-whole world.
+For the next milestone, we are suppose to add features such as bonus army placement for holding whole continents, troupe movement phase, reinforcement of armies proportional to the number of countries held and an "AI" player. We are suppose to make a smell free code, the next challenge would be implement the "AI" player.
