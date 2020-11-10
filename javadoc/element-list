@@ -1,3 +1,6 @@
 game.risk.controller
 game.risk.model
 game.risk.view
+tests.controller
+tests.model
+tests.view
