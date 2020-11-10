@@ -187,7 +187,7 @@ public class GameView {
         topPanel.add(topLabel);
 
         middlePanel = new JPanel();
-        middlePanel.setBounds(50, 120, 1065, 375);
+        middlePanel.setBounds(50, 120, 1050, 375);
         middlePanel.setBackground(background);
         middlePanel.setLayout(new GridLayout(1, playerCount));
         Border tb = BorderFactory.createTitledBorder("Game");
