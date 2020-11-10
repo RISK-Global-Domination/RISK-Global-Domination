@@ -10,6 +10,11 @@
 ### Moderator Teaching Assistant
 * [Joe Samuel](https://github.com/joefsamuel)
 
+### Get Started
+1. Clone the repo
+2. Add JDK path to the project
+3. Run the main function in Driver class
+
 ### User Manual
 1) Run the jar file
 2) Input the number of players 
@@ -46,3 +51,6 @@ whole world.
 2. In fortification: Select number of soldiers to move doesn't check for valid range.
 3. Dice rolls are properly implemented in model, however dice rolls are not shown to the user in the GUI.
 4. The JOptionPanel for selecting country number spawns at different location. A good location needs to be found.
+
+### Feedback from milestone 1
+1. Created and added javadocs under documentation
