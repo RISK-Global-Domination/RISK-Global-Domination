@@ -21,7 +21,11 @@ public class GameController {
     private Random random;
     private ArrayList<Player> players;
 
-    // Constructor.
+    /**
+     * Constructor for GameController, takes in model and view.
+     * @param model
+     * @param view
+     */
     public GameController(GameModel model, GameView view) {
 
         this.model = model;
@@ -30,7 +34,9 @@ public class GameController {
 
     }
 
-    // Execution..
+    /**
+     * Executes the game.
+     */
     public void execute() {
 
         // Random allocation.
