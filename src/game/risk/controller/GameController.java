@@ -9,21 +9,19 @@ import java.util.Random;
 import game.risk.model.Player;
 import game.risk.view.GameView;
 
-
+/**
+ * EXECUTES THE GAME'S STATUS, ALLOWS THE COMMAND OF FORFITING,
+ * CONQUERING A COUNTRY WITH THE NUMBER OF ARMIES YOU WANT TO GO WITH,
+ * ROLL DICE, END A TURN AND GET THE WINNER OF THE GAME.
+ */
 public class GameController {
-	/**
-	*EXECUTES THE GAME’S STATUS, ALLOWS THE COMMAND OF FORFITING, CONQUERING A COUNTRY WITH THE NUMBER OF ARMIES YOU WANT TO GO WITH, ROLL DICE, END AND GET THE WINNER OF THE GAME. 
-	*/
+
     private GameModel model;
     private GameView view;
     private Random random;
     private ArrayList<Player> players;
 
-    /**
-    * Constructor for GameController, takes in model and view.
-    * @param model
-    * @param view
-    */
+    // Constructor.
     public GameController(GameModel model, GameView view) {
 
         this.model = model;
@@ -32,9 +30,7 @@ public class GameController {
 
     }
 
-    /**
-    * Executes the game.
-    */
+    // Execution..
     public void execute() {
 
         // Random allocation.
@@ -42,7 +38,6 @@ public class GameController {
         view.createPlayerCountScreen();
         view.addPlayerCountListener(new PlayerCountListener());
     }
-
 
     public void execute2() {
 
@@ -182,10 +177,7 @@ public class GameController {
 
     }
 
-    /**
-    * Fortification command that a player chooses if he wants to move his army after he finishes his attack.
-    * @param player
-    */
+    //
     private void fortification(Player player) {
 
         view.fortification();
@@ -213,12 +205,7 @@ public class GameController {
 
     }
 
-    /**
-    * Conquer command where a player chooses the country and the number of armies he wants to attack with.
-    * @param player
-    * @param toIndex
-    * @param armies
-    */
+    // conquer..
     private void conquerCountry(Player player, int toIndex, int armies) {
 
         Player defeated = model.getCountries().get(toIndex).getOccupant();
@@ -232,11 +219,6 @@ public class GameController {
 
     }
 
-	/**
-	 * Rolls a dice, will return a random number from 1 to 6.
-	 * @param count
-	 * @return
-	 */
     private int[] rollDices(int count) {
 
         int[] rolls = new int[count];
@@ -246,10 +228,6 @@ public class GameController {
         return rolls;
 
     }
-	/**
-	 * Ends the game.
-	 * @return
-	 */
 
     private boolean isEnd() {
 
@@ -261,11 +239,6 @@ public class GameController {
         return false;
 
     }
-	
-	/**
-	 * Gets the winner of the game.
-	 * @return
-	 */
 
     private String getWinner() {
 
