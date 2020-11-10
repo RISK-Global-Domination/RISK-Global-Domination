@@ -16,6 +16,7 @@
 3. Run the main function in Driver class
 
 ### User Manual
+(refer to User_Manual in docs folder for detailed user manual with screenshots)
 1) Run the jar file
 2) Input the number of players 
 3) Enter the player's names
@@ -59,9 +60,19 @@ whole world.
 3. Pass option is still to be implemented
 4. Dice rolls are properly implemented in model, however dice rolls are not shown to the user in the GUI.
 5. The JOptionPanel for selecting country number spawns at different location. A good location needs to be found.
+6. The view and controller file ended up a little long. It needs to break into smaller classes.
 
-### Feedback from milestone 1
+### Feedback implemented from milestone 1
 1. Created and added javadocs under documentation
 2. Detailed design description was added.
 3. List of contribution added in README
 4. Github was used for peoject development including Github issues and pull requests.
+
+### List of Deliverables
+- README file, design decisions, unit tests, source code, documentation.
+
+### Roadmap Ahead
+- Add additional features like bonus army placement and AI player: We made modular code with strict mvc pattern that will help in implementing new features easily
+- Add Save/Load features and custom maps: We creation separate .txt files for mapdata which will help ahead in easily implementation these features.
+- Work on known issues of milestone 2
+- Improve the Game Board design by adding World image and using graph for connecting countries

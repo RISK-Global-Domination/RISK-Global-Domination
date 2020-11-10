@@ -196,7 +196,7 @@ public class GameView {
 
         middleTextArea = new JTextArea[playerCount];
 
-        for(int i = 0; i < playerCount; i ++) {
+        for (int i = 0; i < playerCount; i++) {
             JTextArea middleTextArea = new JTextArea("This is the main board");
             middleTextArea.setBackground(background);
             middleTextArea.setForeground(fontsSecondary);
@@ -288,7 +288,7 @@ public class GameView {
                 for (int i = 0; i < a.length; i++) {
                     options[i] = (Object) a[i];
                 }
-                number = (int)(JOptionPane.showInputDialog(bottomPanel1, "Select country number",
+                number = (int) (JOptionPane.showInputDialog(bottomPanel1, "Select country number",
                         "Select Country Number", JOptionPane.PLAIN_MESSAGE, null, options, options[0]));
 
                 if (number >= 1 && number < count) {
@@ -332,7 +332,7 @@ public class GameView {
                     options[i] = (Object) a[i];
                 }
 
-                number = (int)(JOptionPane.showInputDialog(null, "Select country number",
+                number = (int) (JOptionPane.showInputDialog(null, "Select country number",
                         "Select country number", JOptionPane.PLAIN_MESSAGE, null, options, options[0]));
 
                 if (number >= 1 && number < count) {
