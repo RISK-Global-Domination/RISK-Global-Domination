@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-import game.risk.controller.GameController;
 import game.risk.model.Country;
 import game.risk.model.Player;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 /**
  * RETURN THE REPORT OF THE GAME, FETCHES PLAYERS, THE COUNTRIES ATTACKED AND ERRORS.
@@ -25,7 +25,7 @@ public class GameView {
     private JFrame gameFrame;
     private Container con;
     private JPanel gameTfPanel;
-    private JTextField gameTextField;
+    private JTextArea gameTextField;
     private JPanel buttonGrid;
     private JButton[] buttons;
 
@@ -41,12 +41,20 @@ public class GameView {
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 70);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 28);
 
+    // components - 3
     private JPanel topPanel;
     private JLabel topLabel;
     private JPanel middlePanel;
     private JPanel bottomPanel2;
-    private JTextArea middleTextArea;
+    private JTextArea[] middleTextArea;
     private JPanel bottomPanel1;
+    private JTextArea bottomLabel;
+    private JTextArea bottomLabel2;
+
+    // font colors
+    private Color background = Color.BLACK;
+    private Color fontsMain = Color.CYAN;
+    private Color fontsSecondary = Color.WHITE;
 
     // constructor
     public GameView() {
@@ -56,7 +64,7 @@ public class GameView {
         gameFrame.setLayout(null);
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         con = gameFrame.getContentPane();
-        con.setBackground(Color.WHITE);
+        con.setBackground(background);
 
         gameFrame.setSize(1200, 800);
         gameFrame.setVisible(true);
@@ -66,27 +74,27 @@ public class GameView {
     public void createPlayerCountScreen() {
 
         gameTfPanel = new JPanel();
-        gameTfPanel.setBounds(100, 250, 1000, 150);
-        gameTfPanel.setBackground(Color.WHITE);
+        gameTfPanel.setBounds(100, 150, 1000, 250);
+        gameTfPanel.setBackground(background);
 
-        gameTextField = new JTextField("How many players (2/3/4/5/6): ");
+        gameTextField = new JTextArea("Welcome to RISK Game!\n\nHow many players?");
         gameTextField.setBorder(BorderFactory.createEmptyBorder());
-        gameTextField.setBackground(Color.WHITE);
-        gameTextField.setForeground(Color.BLUE);
+        gameTextField.setBackground(background);
+        gameTextField.setForeground(fontsMain);
         gameTextField.setEditable(false);
         gameTextField.setFont(titleFont);
 
         buttonGrid = new JPanel();
         buttonGrid.setBounds(300, 550, 600, 75);
-        buttonGrid.setBackground(Color.WHITE);
+        buttonGrid.setBackground(background);
         buttonGrid.setLayout(new GridLayout(1, 5));
 
         buttons = new JButton[5];
 
         for (int i = 0; i < buttons.length; i++) {
             JButton b = new JButton(i + 2 + "");
-            b.setBackground(Color.WHITE);
-            b.setForeground(Color.BLUE);
+            b.setBackground(background);
+            b.setForeground(fontsSecondary);
             b.setFont(normalFont);
             b.setFocusPainted(false);
 
@@ -108,37 +116,38 @@ public class GameView {
         buttonGrid.setVisible(false);
 
         mainTextPanel = new JPanel();
-        mainTextPanel.setBounds(100, 100, 600, 250);
-        mainTextPanel.setBackground(Color.WHITE);
+        mainTextPanel.setBounds(100, 100, 1000, 200);
+        mainTextPanel.setBackground(background);
         con.add(mainTextPanel);
 
         mainTextArea = new JTextArea("Enter player names and press OK");
-        mainTextArea.setBounds(100, 100, 600, 250);
-        mainTextArea.setBackground(Color.gray);
-        mainTextArea.setForeground(Color.BLUE);
-        mainTextArea.setFont(normalFont);
+        mainTextArea.setBounds(100, 100, 1000, 250);
+        mainTextArea.setBackground(background);
+        mainTextArea.setForeground(fontsMain);
+        mainTextArea.setFont(titleFont);
         mainTextArea.setLineWrap(true);
         mainTextPanel.add(mainTextArea);
 
         inputPanel = new JPanel();
-        inputPanel.setBounds(250, 350, 300, 150);
-        inputPanel.setBackground(Color.GRAY);
+        inputPanel.setBounds(250, 300, 500, 150);
+        inputPanel.setBackground(background);
         inputPanel.setLayout(new GridLayout(playerCount, 2));
         con.add(inputPanel);
 
         names = new JTextField[playerCount];
 
         for (int i = 0; i < playerCount; i++) {
-            JLabel pLabel = new JLabel("Player " + (i + 1));
+            JLabel pLabel = new JLabel("Player " + (i + 1) + "'s Name: ");
             pLabel.setFont(normalFont);
-            pLabel.setBackground(Color.CYAN);
+            pLabel.setBackground(background);
+            pLabel.setForeground(fontsMain);
 
             JTextField pTf = new JTextField();
-            pTf.setBounds(250, 350 + (i * 50), 100, 50);
+            pTf.setBounds(250, 300 + (i * 50), 100, 50);
             pTf.setSize(50, 50);
             pTf.setFont(normalFont);
-            pTf.setBackground(Color.DARK_GRAY);
-            pTf.setForeground(Color.YELLOW);
+            pTf.setBackground(background);
+            pTf.setForeground(fontsSecondary);
             names[i] = pTf;
 
             inputPanel.add(pLabel);
@@ -146,24 +155,20 @@ public class GameView {
         }
 
         okButtonPanel = new JPanel();
-        okButtonPanel.setBounds(250, 650, 300, 50);
-        okButtonPanel.setBackground(Color.GRAY);
+        okButtonPanel.setBounds(250, 550, 300, 100);
+        okButtonPanel.setBackground(background);
         con.add(okButtonPanel);
 
         ok = new JButton("OK");
-        ok.setBackground(Color.pink);
+        ok.setBackground(background);
+        ok.setForeground(fontsMain);
+        ok.setFont(titleFont);
 
         okButtonPanel.add(ok);
 
     }
 
     // screen 3: Main game screen
-
-    /**
-     * *******************************
-     * **********GAME SCREEN**********
-     * *******************************
-     */
     public void createGameScreen() {
 
         mainTextPanel.setVisible(false);
@@ -171,73 +176,71 @@ public class GameView {
         okButtonPanel.setVisible(false);
 
         topPanel = new JPanel();
-        topPanel.setBounds(200, 100, 800, 50);
-        topPanel.setBackground(Color.GRAY);
+        topPanel.setBounds(200, 10, 800, 100);
+        topPanel.setBackground(background);
         con.add(topPanel);
 
-        // to-do : get whose's turn
-        topLabel = new JLabel("Player x's turn");
-        topLabel.setFont(normalFont);
-        topLabel.setBackground(Color.CYAN);
+        topLabel = new JLabel("Welcome to RISK Board!");
+        topLabel.setFont(titleFont);
+        topLabel.setBackground(background);
+        topLabel.setForeground(fontsMain);
         topPanel.add(topLabel);
 
         middlePanel = new JPanel();
-        middlePanel.setBounds(200, 200, 800, 400);
-        middlePanel.setBackground(Color.GRAY);
+        middlePanel.setBounds(50, 120, 1065, 375);
+        middlePanel.setBackground(background);
+        middlePanel.setLayout(new GridLayout(1, playerCount));
+        Border tb = BorderFactory.createTitledBorder("Game");
+        middlePanel.setBorder(BorderFactory.createTitledBorder(tb, "Game Board", 0, 0, null, fontsMain));
         con.add(middlePanel);
 
-        middleTextArea = new JTextArea("Player x's turn");
-        middleTextArea.setBounds(200, 200, 800, 400);
-        middleTextArea.setBackground(Color.GRAY);
-        middlePanel.setForeground(Color.BLUE);
-        // middlePanel.setFont(normalFont);
-        middleTextArea.setLineWrap(true);
-        middlePanel.add(middleTextArea);
+        middleTextArea = new JTextArea[playerCount];
+
+        for(int i = 0; i < playerCount; i ++) {
+            JTextArea middleTextArea = new JTextArea("This is the main board");
+            middleTextArea.setBackground(background);
+            middleTextArea.setForeground(fontsSecondary);
+            middleTextArea.setLineWrap(false);
+            this.middleTextArea[i] = middleTextArea;
+            middlePanel.add(middleTextArea);
+        }
 
         bottomPanel1 = new JPanel();
-        bottomPanel1.setBounds(200, 650, 350, 200);
-        bottomPanel1.setBackground(Color.GRAY);
+        bottomPanel1.setBounds(50, 550, 625, 200);
+        bottomPanel1.setBackground(background);
         con.add(bottomPanel1);
 
+        bottomLabel = new JTextArea("Game Status :");
+        bottomLabel.setFont(normalFont);
+        bottomLabel.setBackground(background);
+        bottomLabel.setForeground(fontsMain);
+        bottomPanel1.add(bottomLabel);
+
         bottomPanel2 = new JPanel();
-        bottomPanel2.setBounds(600, 650, 400, 200);
-        // bottomPanel2.setBackground(Color.white);
+        bottomPanel2.setBounds(675, 510, 400, 450);
+        bottomPanel2.setBackground(background);
         con.add(bottomPanel2);
 
-//		for(int i = 0; i < playerCount; i++) {
-//			JLabel pLabel = new JLabel("Player " + i + 1);
-//			pLabel.setFont(normalFont);
-//			pLabel.setBackground(Color.CYAN);
-//
-//			JTextField pTf = new JTextField();
-//			pTf.setBounds(250, 350 + (i*50), 100, 50);
-//			pTf.setSize(50, 50);
-//			pTf.setFont(normalFont);
-//			pTf.setBackground(Color.DARK_GRAY);
-//			pTf.setForeground(Color.YELLOW);
-//			names[i] = pTf;
-//
-//			inputPanel.add(pLabel);
-//			inputPanel.add(pTf);
-//		}
+        bottomLabel2 = new JTextArea();
+        bottomLabel2.setBackground(background);
+        bottomLabel2.setForeground(fontsSecondary);
+        bottomPanel2.add(bottomLabel2);
     }
 
     public void completeReport(ArrayList<Player> players) {
 
-        String report = "";
-
+        int i = 0;
         for (Player player : players) {
-            report += player.getName() + " Armies \n";
+            String report = "";
+            report += player.getName() + "'s Armies \n";
             int count = 1;
             for (Country country : player.getOccupiedCountries()) {
-                report += "\t" + count + ": " + country.getName() + "(Armies: " + country.getArmies() + ")\n";
+                report += "  " + count + ": " + country.getName() + "(Armies: " + country.getArmies() + ")\n";
                 count++;
             }
+            middleTextArea[i].setText(report);
+            i++;
         }
-
-        System.out.println(report);
-        middleTextArea.setText(report);
-
     }
 
     // Doing turn.
@@ -270,37 +273,32 @@ public class GameView {
         int number = 0;
         while (true) {
             int count = 1;
+            String status = "";
             for (Country country : player.getOccupiedCountries()) {
-                System.out.printf("\t%d: %-25s %s\n", count, country.getName(), "(Armies: " + country.getArmies() + ")");
+                status += "  " + count + ": " + country.getName() + "(Armies: " + country.getArmies() + ")\n";
                 count++;
             }
+            bottomLabel2.setText(status);
             if (count != 1) {
-                System.out.print(message);
-                // number = Integer.parseInt(scan.nextLine());
-//                number = Integer.parseInt(JOptionPane.showInputDialog("Enter number!"));
-//                number = Integer.parseInt(JOptionPane.showInternalInputDialog(bottomPanel, "Enter!"));
+                bottomLabel.setText(message);
+
                 int[] a = IntStream.range(1, count).toArray();
-
                 Object[] options = new Object[a.length];
-
                 // copy elements from object array to integer array
                 for (int i = 0; i < a.length; i++) {
                     options[i] = (Object) a[i];
                 }
-
-
                 number = (int)(JOptionPane.showInputDialog(bottomPanel1, "Select country number",
                         "To country", JOptionPane.ERROR_MESSAGE, null, options, options[0]));
-
 
                 if (number >= 1 && number < count) {
                     number--;
                     break;
                 } else {
-                    System.out.println("Please select correct number!!");
+                    bottomLabel.setText("Please select correct number!!");
                 }
             } else {
-                System.out.println("Sorry! You don't hold any country.");
+                bottomLabel.setText("Sorry! You don't hold any country.");
                 number = -1;
                 break;
             }
@@ -314,16 +312,16 @@ public class GameView {
         int number = 0;
         while (true) {
             int count = 1;
+            String status = "";
             for (Country country : attacking.getJoining()) {
                 if (country.getOccupant() != player) {
-                    System.out.printf("\t%d: %-25s %s\n", count, country.getName(), "(Armies: " + country.getArmies() + ")");
+                    status += "  " + count + ": " + country.getName() + "(Armies: " + country.getArmies() + ")\n";
                     count++;
                 }
             }
+            bottomLabel2.setText(status);
             if (count != 1) {
-                System.out.print("Select number where to attack: ");
-               // number = Integer.parseInt(scan.nextLine());
-                // number = Integer.parseInt(JOptionPane.showInputDialog("Enter number!"));
+                bottomLabel.setText("Select number where to attack: ");
 
                 int[] a = IntStream.range(1, count).toArray();
 

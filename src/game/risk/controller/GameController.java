@@ -117,7 +117,10 @@ public class GameController {
 					} while (to == -1);
 
 					// Attacking...
-					// dices..
+
+                    /***********************************
+                     **************** DICES ************
+                     ***********************************/
 					int toArmies = model.getCountries().get(to).getArmies();
 					int fromArmies = model.getCountries().get(from).getArmies() - 1;
 					int dices = (toArmies < fromArmies) ? toArmies : fromArmies;
