@@ -187,7 +187,7 @@ public class GameView {
         topPanel.add(topLabel);
 
         middlePanel = new JPanel();
-        middlePanel.setBounds(50, 120, 1065, 375);
+        middlePanel.setBounds(50, 120, 1050, 375);
         middlePanel.setBackground(background);
         middlePanel.setLayout(new GridLayout(1, playerCount));
         Border tb = BorderFactory.createTitledBorder("Game");
@@ -196,7 +196,7 @@ public class GameView {
 
         middleTextArea = new JTextArea[playerCount];
 
-        for(int i = 0; i < playerCount; i ++) {
+        for (int i = 0; i < playerCount; i++) {
             JTextArea middleTextArea = new JTextArea("This is the main board");
             middleTextArea.setBackground(background);
             middleTextArea.setForeground(fontsSecondary);
@@ -288,8 +288,8 @@ public class GameView {
                 for (int i = 0; i < a.length; i++) {
                     options[i] = (Object) a[i];
                 }
-                number = (int)(JOptionPane.showInputDialog(bottomPanel1, "Select country number",
-                        "To country", JOptionPane.ERROR_MESSAGE, null, options, options[0]));
+                number = (int) (JOptionPane.showInputDialog(bottomPanel1, "Select country number",
+                        "Select Country Number", JOptionPane.PLAIN_MESSAGE, null, options, options[0]));
 
                 if (number >= 1 && number < count) {
                     number--;
@@ -332,8 +332,8 @@ public class GameView {
                     options[i] = (Object) a[i];
                 }
 
-                number = (int)(JOptionPane.showInputDialog(null, "Select country number",
-                        "To country", JOptionPane.ERROR_MESSAGE, null, options, options[0]));
+                number = (int) (JOptionPane.showInputDialog(null, "Select country number",
+                        "Select country number", JOptionPane.PLAIN_MESSAGE, null, options, options[0]));
 
                 if (number >= 1 && number < count) {
                     int index = 0;
@@ -364,9 +364,9 @@ public class GameView {
 
     public int numberOfSoliders() {
 
-        System.out.print("\nSelect number of soliders: ");
+        // System.out.print("\nSelect number of soliders: ");
 
-        int numberOfSoldiers = Integer.parseInt(JOptionPane.showInputDialog("Select Soldiers Number"));
+        int numberOfSoldiers = Integer.parseInt(JOptionPane.showInputDialog("Select Soldiers Number", JOptionPane.PLAIN_MESSAGE));
 
         return numberOfSoldiers;
 
@@ -374,30 +374,35 @@ public class GameView {
 
     public void conquered(Player player, Country country) {
 
-        System.out.println("************************************************");
-        System.out.println("********************* CONQURED *****************");
-        System.out.println(player.getName() + " conquered " + country.getName());
-        System.out.println("************************************************");
+//        System.out.println("************************************************");
+//        System.out.println("********************* CONQURED *****************");
+//        System.out.println(player.getName() + " conquered " + country.getName());
+//        System.out.println("************************************************");
+
+        topLabel.setText("> " + player.getName() + "'s TURN < : " + player.getName() + " conquered " + country.getName());
 
     }
 
     public void fortification() {
 
-        System.out.println("****************** FORTIFICATION ***************");
+//        System.out.println("****************** FORTIFICATION ***************");
+        topLabel.setText("FORTIFICATION");
 
     }
 
     public void errorFortification() {
 
-        System.out.println("You don't have enough soliders to move.");
+//        System.out.println("You don't have enough soliders to move.");
+        bottomLabel.setText("You don't have enough soliders to move.");
 
     }
 
     public void fail(Player player, Country country) {
 
-        System.out.println("********************* FAILED *****************");
-        System.out.println(player.getName() + " failed to conquered " + country.getName());
-        System.out.println("********************* FAILED *****************");
+//        System.out.println("********************* FAILED *****************");
+//        System.out.println(player.getName() + " failed to conquered " + country.getName());
+//        System.out.println("********************* FAILED *****************");
+        topLabel.setText("> " + player.getName() + "'s TURN < : " + player.getName() + " failed to conquered " + country.getName());
 
     }
 

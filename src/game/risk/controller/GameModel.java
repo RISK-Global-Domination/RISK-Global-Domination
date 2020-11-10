@@ -15,6 +15,9 @@ public class GameModel {
     private ArrayList<Continent> continents;
     private DataFetcher fetcher;
 
+    /**
+     * Constructor of GameModel.
+     */
     public GameModel() {
 
         fetcher = new DataFetcher();
@@ -23,10 +26,18 @@ public class GameModel {
 
     }
 
+    /**
+     * Gets the list of countries.
+     * @return
+     */
     public ArrayList<Country> getCountries() {
         return countries;
     }
 
+    /**
+     * Gets the list of continents.
+     * @return
+     */
     public ArrayList<Continent> getContinents() {
         return continents;
     }
@@ -35,6 +46,9 @@ public class GameModel {
         return fetcher;
     }
 
+    /**
+     * Shuffles the country list.
+     */
     public void shuffleCountries() {
         Collections.shuffle(countries);
     }

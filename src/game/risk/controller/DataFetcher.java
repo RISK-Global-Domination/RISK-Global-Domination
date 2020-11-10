@@ -16,6 +16,9 @@ public class DataFetcher {
     private ArrayList<Continent> continents;
     private ArrayList<Country> countries;
 
+    /**
+     * Constructor for DataFetcher.
+     */
     public DataFetcher() {
 
         this.continents = new ArrayList<>();
@@ -25,6 +28,10 @@ public class DataFetcher {
 
     }
 
+    /**
+     * Gets a list of continents.
+     * @return
+     */
     public ArrayList<Continent> getContinents() {
 
         return continents;
@@ -37,6 +44,9 @@ public class DataFetcher {
 
     }
 
+    /**
+     * Reads the country names from the text file counties.txt.
+     */
     private void readCountries() {
 
         ArrayList<String> data = readFile("mapdata/countries.txt");
@@ -64,6 +74,11 @@ public class DataFetcher {
 
     }
 
+    /**
+     * Fetches the country names.
+     * @param names
+     * @return
+     */
     private ArrayList<Country> fetchCountriesFromNames(ArrayList<String> names) {
 
         ArrayList<Country> list = new ArrayList<>();

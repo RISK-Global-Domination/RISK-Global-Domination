@@ -3,7 +3,8 @@ package game.risk.controller;
 import game.risk.view.GameView;
 
 /**
- * GAME'S DRIVER
+ * Opens and runs through the game sequence.
+ * @param args
  */
 public class Driver {
 
