@@ -1,5 +1,5 @@
 # RISK-Global-Domination
- A simplified version of the classic strategy game RISK
+A simplified version of the classic strategy game RISK
  
  ### Group Members:
  * [Adityo Sarkar](https://github.com/theadityo)
@@ -19,7 +19,7 @@
 3. Run the main function in Driver class
 
 ### User Manual
-(refer to User_Manual in docs folder for detailed user manual with screenshots)
+> refer to User_Manual in docs folder for detailed user manual with screenshots
 1) Run the jar file
 2) Input the number of players 
 3) Enter the player's names
