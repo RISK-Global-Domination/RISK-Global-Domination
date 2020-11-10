@@ -6,37 +6,58 @@ import java.util.Collections;
 import game.risk.model.Continent;
 import game.risk.model.Country;
 
-/**
- * GAME'S MODEL
- */
 public class GameModel {
 
-    private ArrayList<Country> countries;
-    private ArrayList<Continent> continents;
-    private DataFetcher fetcher;
+	private ArrayList<Country> countries;
+	private ArrayList<Continent> continents;
+	private DataFetcher fetcher;
+	
+	/**
+	 * Constructor of GameModel.
+	 */
+	public GameModel() {
+		
+		fetcher = new DataFetcher();
+		this.continents = fetcher.getContinents();
+		this.countries = fetcher.getCountries();
+		
+	}
+	
+	/**
+	 * Gets the list of countries.
+	 * @return
+	 */
 
-    public GameModel() {
+	public ArrayList<Country> getCountries() {
+		return countries;
+	}
 
-        fetcher = new DataFetcher();
-        this.continents = fetcher.getContinents();
-        this.countries = fetcher.getCountries();
+	/**
+	 * Gets the list of continents.
+	 * @return
+	 */
+	public ArrayList<Continent> getContinents() {
+		return continents;
+	}
+	
+	/**
+	 * Gets fetcher from DataFetcher.
+	 * @return
+	 */
 
-    }
+	public DataFetcher getFetcher() {
+		return fetcher;
+	}
+	 
+	/**
+	 * Shuffles the country list.
+	 */
+	public void shuffleCountries() {
+		Collections.shuffle(countries);
+	}
+	
+}
 
-    public ArrayList<Country> getCountries() {
-        return countries;
-    }
 
-    public ArrayList<Continent> getContinents() {
-        return continents;
-    }
-
-    public DataFetcher getFetcher() {
-        return fetcher;
-    }
-
-    public void shuffleCountries() {
-        Collections.shuffle(countries);
-    }
 
 }
