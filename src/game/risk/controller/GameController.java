@@ -292,10 +292,6 @@ public class GameController {
                 players.add(new Player(view.getNames()[i].getText(), armies));
             }
 
-            for (Player p : players) {
-                System.out.println(p.getName());
-            }
-
             view.createGameScreen();
 
             execute2();
