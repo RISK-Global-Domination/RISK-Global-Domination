@@ -40,3 +40,9 @@ If attacker have the more wins than it will successfully conquer the country and
 start the process of fortification. It can move soldiers one time in a single turn. 
 It will keep going until 1 player defeated all other players and conquered the 
 whole world.
+
+### Known issues for milestone 2
+1. Player name can be an empty string.
+2. In fortification: Select number of soldiers to move doesn't check for valid range.
+3. Dice rolls are properly implemented in model, however dice rolls are not shown to the user in the GUI.
+4. The JOptionPanel for selecting country number spawns at different location. A good location needs to be found.
