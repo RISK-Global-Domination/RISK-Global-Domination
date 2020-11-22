@@ -3,7 +3,7 @@ package game.risk.model;
 import java.util.ArrayList;
 
 /**
- *KEEPS RECORD OF EACH PLAYERâ€™S OCCUPANCIES.
+ *KEEPS RECORD OF EACH PLAYER’S OCCUPANCIES.
  *UPDATES THE NUMBER OF ARMIES.
  *ADDS COUNTRY IF IT IS CONQUERED, REMOVES COUNTRY IF IS OCCUPIED.
  *ADDS CONTINENT IF IT IS OCCUPIED.
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Player {
 
 	private String name;
-	private int armies;
+	private int armies, playerNumber;
 	private ArrayList<Country> occupiedCountries;
 	private ArrayList<Continent> occupiedContinents;
 
@@ -21,10 +21,11 @@ public class Player {
 	 * @param player
 	 * @param armies
 	 */
-	public Player(String player, int armies) {
+	public Player(String player, int armies, int playerNumber) {
 		
 		this.name = player;
 		this.armies = armies;
+		this.playerNumber = playerNumber;
 		this.occupiedContinents = new ArrayList<>();
 		this.occupiedCountries = new ArrayList<>();
 		
@@ -92,6 +93,11 @@ public class Player {
 	 */
 	public ArrayList<Continent> getOccupiedContinents() {
 		return occupiedContinents;
+	}
+
+	public int getPlayerNumber() 
+	{
+		return playerNumber;
 	}
 	
 }

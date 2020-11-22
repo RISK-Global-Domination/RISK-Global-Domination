@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 import game.risk.model.Player;
 import game.risk.view.GameView;
 
@@ -92,87 +94,239 @@ public class GameController {
                 // turn.
                 int to = 0;
                 int from = 0;
-                do {
+                
+                if(player.getPlayerNumber() < (view.getPlayerCount() - view.getAiPlayerCount()))
+                {
+                	do {
 
-                    view.takeTurn(player);
-                    //
-                    to = view.toLand(player, 2);
+                        view.takeTurn(player);
+                        
+                        
+                        //
+                        to = view.toLand(player, 2);
+                        for (int i = 0; i < model.getCountries().size(); i++) {
+                            if (player.getOccupiedCountries().get(to) == model.getCountries().get(i)) {
+                                to = i;
+                                break;
+                            }
+                        }
+                        model.getCountries().get(to).updateArmies(2);
+                        //
+                        from = view.getCountryStartAttack(player);
+                        for (int i = 0; i < model.getCountries().size(); i++) {
+                            if (player.getOccupiedCountries().get(from) == model.getCountries().get(i)) {
+                                from = i;
+                                break;
+                            }
+                        }
+                        to = view.getCountryOnAttack(player, model.getCountries().get(from));
+                        for (int i = 0; i < model.getCountries().size(); i++) {
+                            if (model.getCountries().get(from).getJoining().get(to) == model.getCountries().get(i)) {
+                                to = i;
+                                break;
+                            }
+                        }
+
+                    } while (to == -1);
+
+                    // Attacking...
+
+                    /***********************************
+                     **************** DICES ************
+                     ***********************************/
+                    int toArmies = model.getCountries().get(to).getArmies();
+                    int fromArmies = model.getCountries().get(from).getArmies() - 1;
+                    int dices = (toArmies < fromArmies) ? toArmies : fromArmies;
+                    if (dices > 2) {
+                        dices = 2;
+                    }
+                    if (toArmies == 0) {
+
+                        // direct conquer..
+                        conquerCountry(player, to, fromArmies);
+
+                    } else {
+
+                        int[] toDices = rollDices(dices);
+                        int[] fromDices = rollDices(dices);
+                        Arrays.sort(toDices);
+                        Arrays.sort(fromDices);
+                        int toWins = 0, fromWins = 0;
+                        for (int i = 0; i < toDices.length; i++) {
+                            if (toDices[i] > fromDices[i]) {
+                                toWins++;
+                            } else if (toDices[i] < fromDices[i]) {
+                                fromWins++;
+                            }
+                        }
+                        model.getCountries().get(to).updateArmies(-fromWins);
+                        model.getCountries().get(from).updateArmies(-toWins);
+                        // checking wins..
+                        if (fromWins > toWins) {
+
+                            // conquer..
+                            conquerCountry(player, to, (fromArmies - toWins));
+                            fortification(player);
+
+                        } else if (fromWins < toWins) {
+
+                            // conquer..
+                            view.fail(player, model.getCountries().get(to));
+
+                        }
+
+                    }
+                    
+                    view.moveTroupes();
+                    
+                    int moveTroupesTo = 0, moveTroupesFrom = 0;
+                    
+                    moveTroupesFrom = view.fromMove(player);
                     for (int i = 0; i < model.getCountries().size(); i++) {
-                        if (player.getOccupiedCountries().get(to) == model.getCountries().get(i)) {
-                            to = i;
+                        if (player.getOccupiedCountries().get(moveTroupesFrom) == model.getCountries().get(i)) {
+                            moveTroupesFrom = i;
                             break;
                         }
                     }
-                    model.getCountries().get(to).updateArmies(2);
-                    //
-                    from = view.getCountryStartAttack(player);
+                    
+                    moveTroupesTo = view.getMoveTroupes(player, model.getCountries().get(moveTroupesFrom));
                     for (int i = 0; i < model.getCountries().size(); i++) {
-                        if (player.getOccupiedCountries().get(from) == model.getCountries().get(i)) {
-                            from = i;
+                        if (model.getCountries().get(moveTroupesFrom).getJoining().get(moveTroupesTo) == model.getCountries().get(i)) {
+                        	moveTroupesTo = i;
                             break;
                         }
                     }
-                    to = view.getCountryOnAttack(player, model.getCountries().get(from));
-                    for (int i = 0; i < model.getCountries().size(); i++) {
-                        if (model.getCountries().get(from).getJoining().get(to) == model.getCountries().get(i)) {
-                            to = i;
-                            break;
-                        }
+                    
+                    int soldiers = view.numberOfSoliders();
+                    if (soldiers <= (model.getCountries().get(moveTroupesFrom).getArmies() - 1)) 
+                    {
+                        model.getCountries().get(moveTroupesFrom).updateArmies(-soldiers);
+                        model.getCountries().get(moveTroupesTo).updateArmies(soldiers);
+                    } else {
+                        view.errorFortification();
                     }
 
-                } while (to == -1);
-
-                // Attacking...
-
-                /***********************************
-                 **************** DICES ************
-                 ***********************************/
-                int toArmies = model.getCountries().get(to).getArmies();
-                int fromArmies = model.getCountries().get(from).getArmies() - 1;
-                int dices = (toArmies < fromArmies) ? toArmies : fromArmies;
-                if (dices > 2) {
-                    dices = 2;
+                    // if is game ended.
+                    if (isEnd()) {
+                        break;
+                    }
                 }
-                if (toArmies == 0) {
+                
+                else
+                {
+                	do
+                	{
+                		view.takeTurn(player);
+                		
+                		to = view.aiToLand(player, 2);
+                		for (int i = 0; i < model.getCountries().size(); i++) {
+                            if (player.getOccupiedCountries().get(to) == model.getCountries().get(i)) {
+                                to = i;
+                                break;
+                            }
+                        }
+                        model.getCountries().get(to).updateArmies(2);
+                        
+                        from = view.aiGetCountryStartAttack(player);
+                        for (int i = 0; i < model.getCountries().size(); i++) {
+                            if (player.getOccupiedCountries().get(from) == model.getCountries().get(i)) {
+                                from = i;
+                                break;
+                            }
+                        }
+                        
+                        to = view.aiGetCountryOnAttack(player, model.getCountries().get(from));
+                        for (int i = 0; i < model.getCountries().size(); i++) {
+                            if (model.getCountries().get(Math.abs(from)).getJoining().get(Math.abs(to)) == model.getCountries().get(Math.abs(i))) {
+                                to = i;
+                                break;
+                            }
+                        }
+                	} while(to == -1);
+                	
+                	// Attacking...
 
-                    // direct conquer..
-                    conquerCountry(player, to, fromArmies);
+                    /***********************************
+                     **************** DICES ************
+                     ***********************************/
+                    int toArmies = model.getCountries().get(to).getArmies();
+                    int fromArmies = model.getCountries().get(from).getArmies() - 1;
+                    int dices = (toArmies < fromArmies) ? toArmies : fromArmies;
+                    if (dices > 2) {
+                        dices = 2;
+                    }
+                    
+                    if (toArmies == 0) {
 
-                } else {
+                        // direct conquer..
+                        conquerCountry(player, to, fromArmies);
 
-                    int[] toDices = rollDices(dices);
-                    int[] fromDices = rollDices(dices);
-                    Arrays.sort(toDices);
-                    Arrays.sort(fromDices);
-                    int toWins = 0, fromWins = 0;
-                    for (int i = 0; i < toDices.length; i++) {
-                        if (toDices[i] > fromDices[i]) {
-                            toWins++;
-                        } else if (toDices[i] < fromDices[i]) {
-                            fromWins++;
+                    }
+                    else
+                    {
+                    	int[] toDices = rollDices(dices);
+                        int[] fromDices = rollDices(dices);
+                        Arrays.sort(toDices);
+                        Arrays.sort(fromDices);
+                        int toWins = 0, fromWins = 0;
+                        for (int i = 0; i < toDices.length; i++) {
+                            if (toDices[i] > fromDices[i]) {
+                                toWins++;
+                            } else if (toDices[i] < fromDices[i]) {
+                                fromWins++;
+                            }
+                        }
+                        model.getCountries().get(to).updateArmies(-fromWins);
+                        model.getCountries().get(from).updateArmies(-toWins);
+                        // checking wins..
+                        if (fromWins > toWins) {
+
+                            // conquer..
+                            conquerCountry(player, to, (fromArmies - toWins));
+                            aiFortification(player);
+
+                        } else if (fromWins < toWins) {
+
+                            // conquer..
+                            view.fail(player, model.getCountries().get(to));
+
+                        }
+
+                    }
+                    
+                    view.moveTroupes();
+                    
+                    int moveTroupesTo = 0, moveTroupesFrom = 0;
+                    
+                    moveTroupesFrom = view.aiFromMove(player);
+                    for (int i = 0; i < model.getCountries().size(); i++) {
+                        if (player.getOccupiedCountries().get(moveTroupesFrom) == model.getCountries().get(i)) {
+                            moveTroupesFrom = i;
+                            break;
                         }
                     }
-                    model.getCountries().get(to).updateArmies(-fromWins);
-                    model.getCountries().get(from).updateArmies(-toWins);
-                    // checking wins..
-                    if (fromWins > toWins) {
-
-                        // conquer..
-                        conquerCountry(player, to, (fromArmies - toWins));
-                        fortification(player);
-
-                    } else if (fromWins < toWins) {
-
-                        // conquer..
-                        view.fail(player, model.getCountries().get(to));
-
+                    
+                    moveTroupesTo = view.aiGetMoveTroupes(player, model.getCountries().get(moveTroupesFrom));
+                    for (int i = 0; i < model.getCountries().size(); i++) {
+                        if (model.getCountries().get(moveTroupesFrom).getJoining().get(moveTroupesTo) == model.getCountries().get(i)) {
+                        	moveTroupesTo = i;
+                            break;
+                        }
                     }
+                    
+                    int soldiers = random.nextInt(Math.abs(model.getCountries().get(Math.abs(moveTroupesFrom)).getArmies() - 1));
+                	
+                	JOptionPane.showMessageDialog(null, "AI Selected Number of Soldiers: " + soldiers,
+                            "AI Selected Number of Soldiers", JOptionPane.PLAIN_MESSAGE, null);
+                	
+                	model.getCountries().get(moveTroupesFrom).updateArmies(-soldiers);
+                    model.getCountries().get(moveTroupesTo).updateArmies(soldiers);
 
-                }
-
-                // if is game ended.
-                if (isEnd()) {
-                    break;
+                    // if is game ended.
+                    if (isEnd()) {
+                        break;
+                    }
+                    
                 }
 
             }
@@ -194,21 +348,48 @@ public class GameController {
                 break;
             }
         }
-        int soliders = view.numberOfSoliders();
-        if (soliders <= (model.getCountries().get(from).getArmies() - 1)) {
-            int to = view.toLand(player, soliders);
+        int soldiers = view.numberOfSoliders();
+        if (soldiers <= (model.getCountries().get(from).getArmies() - 1)) {
+            int to = view.toLand(player, soldiers);
             for (int i = 0; i < model.getCountries().size(); i++) {
                 if (player.getOccupiedCountries().get(to) == model.getCountries().get(i)) {
                     to = i;
                     break;
                 }
             }
-            model.getCountries().get(from).updateArmies(-soliders);
-            model.getCountries().get(to).updateArmies(soliders);
+            model.getCountries().get(from).updateArmies(-soldiers);
+            model.getCountries().get(to).updateArmies(soldiers);
         } else {
             view.errorFortification();
         }
 
+    }
+    
+    private void aiFortification(Player player)
+    {
+    	view.fortification();
+    	int from = view.aiFromMove(player);
+    	for (int i = 0; i < model.getCountries().size(); i++) {
+            if (player.getOccupiedCountries().get(from) == model.getCountries().get(i)) {
+                from = i;
+                break;
+            }
+        }
+    	
+    	int soldiers = random.nextInt(Math.abs(model.getCountries().get(Math.abs(from)).getArmies() - 1));
+    	
+    	JOptionPane.showMessageDialog(null, "AI Selected Number of Soldiers: " + soldiers,
+                "AI Selected Number of Soldiers", JOptionPane.PLAIN_MESSAGE, null);
+    	
+    	int to = view.aiToLand(player, soldiers);
+    	for (int i = 0; i < model.getCountries().size(); i++) {
+            if (player.getOccupiedCountries().get(to) == model.getCountries().get(i)) {
+                to = i;
+                break;
+            }
+        }
+        model.getCountries().get(from).updateArmies(-soldiers);
+        model.getCountries().get(to).updateArmies(soldiers);
     }
 
     // conquer..
@@ -261,8 +442,10 @@ public class GameController {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             view.setPlayerCount(Integer.parseInt(actionEvent.getActionCommand()));
-            view.createPlayerNameScreen();
-            view.addOkListener(new okListener());
+            //view.createPlayerNameScreen();
+            //view.addOkListener(new okListener());
+            view.createAICountScreen();
+            view.addAICountListener(new aiCountListener());
         }
     }
 
@@ -295,7 +478,7 @@ public class GameController {
             }
 
             for (int i = 0; i < playerCount; i++) {
-                players.add(new Player(view.getNames()[i].getText(), armies));
+                players.add(new Player(view.getNames()[i].getText(), armies, i));
             }
 
             view.createGameScreen();
@@ -303,5 +486,19 @@ public class GameController {
             execute2();
             execute3();
         }
+    }
+    
+    public class aiCountListener implements ActionListener
+    {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			// TODO Auto-generated method stub
+			view.setAiPlayerCount(Integer.parseInt(arg0.getActionCommand()));
+			view.createPlayerNameScreen();
+			view.addOkListener(new okListener());
+		}
+    	
     }
 }

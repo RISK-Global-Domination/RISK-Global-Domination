@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RISK Global Domination.iml" filepath="$PROJECT_DIR$/RISK Global Domination.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RiskGlobalDomination.iml" filepath="$PROJECT_DIR$/RiskGlobalDomination.iml" />
     </modules>
   </component>
 </project>
