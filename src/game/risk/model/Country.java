@@ -80,7 +80,7 @@ public class Country implements Comparable<Country> {
 
 	/**
 	 * Sets the name of the country
-	 * @param name
+	 * @param name - name of the country
 	 */
     public void setName(String name) {
         this.name = name;
@@ -88,7 +88,7 @@ public class Country implements Comparable<Country> {
 
 	/**
 	 * Sets the joining of list of countries
-	 * @param joining
+	 * @param joining - list of adjacent countries
 	 */
     public void setJoining(ArrayList<Country> joining) {
         this.joining = joining;
@@ -96,7 +96,7 @@ public class Country implements Comparable<Country> {
 
     /**
      * Setter for armies
-     * @param armies
+     * @param armies - the number of armies country has
      */
     public void setArmies(int armies) {
         this.armies = armies;
@@ -104,7 +104,7 @@ public class Country implements Comparable<Country> {
 
     /**
      * Setter for occupant
-     * @param occupant
+     * @param occupant - the occupant of the country
      */
     public void setOccupant(Player occupant) {
         this.occupant = occupant;

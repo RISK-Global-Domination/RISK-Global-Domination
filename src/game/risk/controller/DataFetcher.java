@@ -15,8 +15,8 @@ import game.risk.model.Country;
  */
 public class DataFetcher {
 
-    private ArrayList<Continent> continents;
-    private ArrayList<Country> countries;
+    private final ArrayList<Continent> continents;
+    private final ArrayList<Country> countries;
 
     /**
      * Constructor for DataFetcher.
@@ -70,9 +70,9 @@ public class DataFetcher {
                 names.add(tokens[i].trim());
             }
 
-            for (int i = 0; i < countries.size(); i++) {
-                if (country.equals(countries.get(i).getName())) {
-                    countries.get(i).setJoining(this.fetchCountriesFromNames(names));
+            for (Country value : countries) {
+                if (country.equals(value.getName())) {
+                    value.setJoining(this.fetchCountriesFromNames(names));
                     break;
                 }
             }
@@ -86,10 +86,10 @@ public class DataFetcher {
      */
     private ArrayList<Country> fetchCountriesFromNames(ArrayList<String> names) {
         ArrayList<Country> list = new ArrayList<>();
-        for (int i = 0; i < names.size(); i++) {
-            for (int j = 0; j < countries.size(); j++) {
-                if (names.get(i).equals(countries.get(j).getName())) {
-                    list.add(countries.get(j));
+        for (String name : names) {
+            for (Country country : countries) {
+                if (name.equals(country.getName())) {
+                    list.add(country);
                     break;
                 }
             }

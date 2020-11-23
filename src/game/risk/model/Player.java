@@ -11,8 +11,9 @@ import java.util.ArrayList;
  */
 public class Player {
 
-	private String name;
-	private int armies, playerNumber;
+	private final String name;
+	private int armies;
+	private final int playerNumber;
 	private ArrayList<Country> occupiedCountries;
 	private ArrayList<Continent> occupiedContinents;
 

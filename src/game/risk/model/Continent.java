@@ -47,7 +47,7 @@ public class Continent {
 
     /**
      * Sets a list of names of countries fo the continent
-     * @param countries
+     * @param countries - list of countries
      */
     public void setCountries(ArrayList<Country> countries) {
         this.countries = countries;

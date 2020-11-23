@@ -13,9 +13,9 @@ import game.risk.controller.DataFetcher;
  */
 public class GameModel {
 
-    private ArrayList<Country> countries;
-    private ArrayList<Continent> continents;
-    private DataFetcher fetcher;
+    private final ArrayList<Country> countries;
+    private final ArrayList<Continent> continents;
+    private final DataFetcher fetcher;
 
     /**
      * Constructor
