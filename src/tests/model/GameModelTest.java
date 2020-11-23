@@ -1,6 +1,6 @@
 package tests.model;
 
-import game.risk.controller.GameModel;
+import game.risk.model.GameModel;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

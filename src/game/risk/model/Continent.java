@@ -3,7 +3,10 @@ package game.risk.model;
 import java.util.ArrayList;
 
 /**
- * GETS AND SETS THE CONTINENTS AND COUNTRIES FOR EACH CONTINENT.
+ * Model for Continents.
+ * Continent contains the list of countries it has.
+ * @author Tejash
+ * @version 1.0
  */
 public class Continent {
 
@@ -12,8 +15,8 @@ public class Continent {
 
     /**
      * Constructor
-     * @param name
-     * @param countries
+     * @param name - name of the continent
+     * @param countries - list of countries in the continent
      */
     public Continent(String name, ArrayList<Country> countries) {
 
@@ -23,16 +26,16 @@ public class Continent {
     }
 
     /**
-     * Gets the name of the continent.
-     * @return
+     * Gets the name of the continent
+     * @return name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Get an array list of the countries for the continent.
-     * @return
+     * Get an array list of the countries for the continent
+     * @return name
      */
     public ArrayList<Country> getCountries() {
         return countries;
@@ -43,8 +46,8 @@ public class Continent {
     }
 
     /**
-     * Sets a list of names of countries fo the continent.
-     * @param countries
+     * Sets a list of names of countries fo the continent
+     * @param countries - list of countries
      */
     public void setCountries(ArrayList<Country> countries) {
         this.countries = countries;

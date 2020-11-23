@@ -3,37 +3,39 @@ package game.risk.model;
 import java.util.ArrayList;
 
 /**
- *KEEPS RECORD OF EACH PLAYER’S OCCUPANCIES.
- *UPDATES THE NUMBER OF ARMIES.
- *ADDS COUNTRY IF IT IS CONQUERED, REMOVES COUNTRY IF IS OCCUPIED.
- *ADDS CONTINENT IF IT IS OCCUPIED.
- *RER
+ * Model for Player.
+ * Stores the name of the player, number of total armies player posses,
+ * as well as list of occupied countries and continents.
+ * @author Tejash
+ * @version 1.0
  */
 public class Player {
 
-	private String name;
-	private int armies, playerNumber;
+	private final String name;
+	private int armies;
+	private final int playerNumber;
 	private ArrayList<Country> occupiedCountries;
 	private ArrayList<Continent> occupiedContinents;
 
 	/**
 	 * Constructor for Player, takes in the name of the player and the number of armies of the player.
-	 * @param player
-	 * @param armies
+	 * @param player - name of the player
+	 * @param armies - number of total armies player has
+	 * @param playerNumber - unique player number (1, 2, etc.)
 	 */
 	public Player(String player, int armies, int playerNumber) {
-		
+
 		this.name = player;
 		this.armies = armies;
 		this.playerNumber = playerNumber;
 		this.occupiedContinents = new ArrayList<>();
 		this.occupiedCountries = new ArrayList<>();
-		
+
 	}
 
 	/**
 	 * Updates the number of armies by adding the input "updator" to the current number of armies.
-	 * @param updator
+	 * @param updator - number of armies to be added
 	 */
 	public void armiesUpdator(int updator) {
 		this.armies += updator;
@@ -41,7 +43,7 @@ public class Player {
 
 	/**
 	 * When a country is conquered, it will be added the list of occupied countries.
-	 * @param country
+	 * @param country - the conquered country
 	 */
 	public void conqueredCountry(Country country) {
 		this.occupiedCountries.add(country);
@@ -49,7 +51,7 @@ public class Player {
 
 	/**
 	 * When a country is lost, it will be removed from the list of occupied countries.
-	 * @param country
+	 * @param country - the lost country
 	 */
 	public void lostCountry(Country country) {
 		this.occupiedCountries.remove(country);
@@ -57,7 +59,7 @@ public class Player {
 
 	/**
 	 * When a continent is conquered, it will be added the list of occupied continents.
-	 * @param continent
+	 * @param continent - the conquered continent
 	 */
 	public void conqueredContinent(Continent continent) {
 		this.occupiedContinents.add(continent);
@@ -65,7 +67,7 @@ public class Player {
 
 	/**
 	 * Gets the name of the player.
-	 * @return
+	 * @return name - name of the player
 	 */
 	public String getName() {
 		return name;
@@ -73,7 +75,7 @@ public class Player {
 
 	/**
 	 * Gets the number of armies
-	 * @return
+	 * @return armies - the number of armies player has
 	 */
 	public int getArmies() {
 		return armies;
@@ -81,7 +83,7 @@ public class Player {
 
 	/**
 	 * Get the list of occupied countries.
-	 * @return
+	 * @return occupiedCountries - list of countries
 	 */
 	public ArrayList<Country> getOccupiedCountries() {
 		return occupiedCountries;
@@ -89,12 +91,16 @@ public class Player {
 
 	/**
 	 * Gets the list of occupied continents.
-	 * @return
+	 * @return occupiedContinents - list of occupied continents
 	 */
 	public ArrayList<Continent> getOccupiedContinents() {
 		return occupiedContinents;
 	}
 
+	/**
+	 * Gets playerNumber/
+	 * @return playerNumber - unique number associated to the player
+	 */
 	public int getPlayerNumber() 
 	{
 		return playerNumber;
