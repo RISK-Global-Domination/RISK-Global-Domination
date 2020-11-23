@@ -1,13 +1,15 @@
-package game.risk.controller;
+package game.risk.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import game.risk.model.Continent;
-import game.risk.model.Country;
+import game.risk.controller.DataFetcher;
 
 /**
- * GAME'S MODEL
+ * Model for the RISK game
+ * It stores the list of countries, and the list of continents
+ * @author Tejash
+ * @version 1.0
  */
 public class GameModel {
 
@@ -16,7 +18,7 @@ public class GameModel {
     private DataFetcher fetcher;
 
     /**
-     * Constructor of GameModel.
+     * Constructor
      */
     public GameModel() {
 
@@ -28,7 +30,7 @@ public class GameModel {
 
     /**
      * Gets the list of countries.
-     * @return
+     * @return countries - list of all the countries in the game
      */
     public ArrayList<Country> getCountries() {
         return countries;
@@ -36,7 +38,7 @@ public class GameModel {
 
     /**
      * Gets the list of continents.
-     * @return
+     * @return continents - list of all continents in the game
      */
     public ArrayList<Continent> getContinents() {
         return continents;
