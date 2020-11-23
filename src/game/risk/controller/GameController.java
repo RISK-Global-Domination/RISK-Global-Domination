@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
+import game.risk.model.GameModel;
 import game.risk.model.Player;
 import game.risk.view.GameView;
 
