@@ -1,7 +1,6 @@
 package tests.controller;
 
 import game.risk.controller.DataFetcher;
-import game.risk.controller.GameModel;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

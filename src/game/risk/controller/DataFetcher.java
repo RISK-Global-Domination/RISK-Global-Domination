@@ -9,7 +9,9 @@ import game.risk.model.Continent;
 import game.risk.model.Country;
 
 /**
- * FETCHES THE COUNTRIES AND CONTINENTS NAMES FROM THE TEXT FILES.
+ * DataFetcher - Fetches the countries and continent names from the text files
+ * @author Tejash
+ * @version 1.0
  */
 public class DataFetcher {
 
@@ -30,22 +32,24 @@ public class DataFetcher {
 
     /**
      * Gets a list of continents.
-     * @return
+     * @return continents - The list of continents
      */
     public ArrayList<Continent> getContinents() {
-
         return continents;
-
-    }
-
-    public ArrayList<Country> getCountries() {
-
-        return countries;
-
     }
 
     /**
-     * Reads the country names from the text file counties.txt.
+     * Gets the list of countries.
+     * @return countries - The list of countries
+     */
+    public ArrayList<Country> getCountries() {
+        return countries;
+    }
+
+    /**
+     * Reads the countries from the text file counties.txt
+     * Reads the joining from text file joining.txt and
+     * sets the joining (adjacent countries) for each country
      */
     private void readCountries() {
 
@@ -53,34 +57,34 @@ public class DataFetcher {
         for (String each : data) {
             countries.add(new Country(each));
         }
-        // Adjacent..
-        data = readFile("mapdata/joining.txt");
-        for (String each : data) {
 
+        data = readFile("mapdata/joining.txt");
+
+        // Add neighbour countries as per the joining file
+        for (String each : data) {
             String[] tokens = each.split(",");
             String country = tokens[0].trim();
             ArrayList<String> names = new ArrayList<>();
+
             for (int i = 1; i < tokens.length; i++) {
                 names.add(tokens[i].trim());
             }
+
             for (int i = 0; i < countries.size(); i++) {
                 if (country.equals(countries.get(i).getName())) {
                     countries.get(i).setJoining(this.fetchCountriesFromNames(names));
                     break;
                 }
             }
-
         }
-
     }
 
     /**
-     * Fetches the country names.
-     * @param names
-     * @return
+     * Converts the arraylist of string of country names to arraylist of country object
+     * @param names - list of strings of country names
+     * @return list - list of Countries
      */
     private ArrayList<Country> fetchCountriesFromNames(ArrayList<String> names) {
-
         ArrayList<Country> list = new ArrayList<>();
         for (int i = 0; i < names.size(); i++) {
             for (int j = 0; j < countries.size(); j++) {
@@ -91,14 +95,15 @@ public class DataFetcher {
             }
         }
         return list;
-
     }
 
+    /**
+     * Reads the continents from the text file continents.txt
+     */
     private void readContinents() {
 
         ArrayList<String> data = readFile("mapdata/continents.txt");
         for (String each : data) {
-
             String[] tokens = each.split(",");
             String continentName = tokens[0];
             ArrayList<String> names = new ArrayList<>();
@@ -107,12 +112,15 @@ public class DataFetcher {
             }
             continents.add(new Continent(continentName,
                     this.fetchCountriesFromNames(names)));
-
         }
-
     }
 
-    // Reading file..
+    /**
+     * Reads the file and stores it in a arraylist of String
+     *
+     * @param file - the path of the file to be read
+     * @return list - ArrayList of Strings from the file
+     */
     private ArrayList<String> readFile(String file) {
 
         ArrayList<String> list = new ArrayList<>();
@@ -129,5 +137,4 @@ public class DataFetcher {
         return list;
 
     }
-
 }
