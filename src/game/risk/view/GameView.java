@@ -1,16 +1,27 @@
 package game.risk.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+
 import game.risk.model.Country;
 import game.risk.model.Player;
-
-import javax.swing.*;
-import javax.swing.border.Border;
 
 /**
  * RETURN THE REPORT OF THE GAME, FETCHES PLAYERS, THE COUNTRIES ATTACKED AND ERRORS.
@@ -19,7 +30,7 @@ public class GameView {
 
     // Attributes...
     private Scanner scan;
-    private int playerCount;
+    private int playerCount, aiPlayerCount;
 
     // components - screen 1
     private JFrame gameFrame;
@@ -28,8 +39,15 @@ public class GameView {
     private JTextArea gameTextField;
     private JPanel buttonGrid;
     private JButton[] buttons;
+    
+    //components - aicount screen
+    private JPanel aiPanel;
+    private JTextArea aiTextField;
+    private JPanel aiButtonGrid;
+    private JButton[] aiButtons;
+    
 
-    // components - screen 2
+    // components - screen 3
     private JPanel mainTextPanel;
     private JTextArea mainTextArea;
     private JPanel inputPanel;
@@ -41,7 +59,7 @@ public class GameView {
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 70);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 28);
 
-    // components - 3
+    // components - 4
     private JPanel topPanel;
     private JLabel topLabel;
     private JPanel middlePanel;
@@ -109,11 +127,52 @@ public class GameView {
         con.add(gameTfPanel);
         gameFrame.revalidate();
     }
-
-    // screen 2: Get Names of Players
-    public void createPlayerNameScreen() {
-        gameTfPanel.setVisible(false);
+    
+    //screen 2: Count number of AI Players
+    public void createAICountScreen()
+    {
+    	gameTfPanel.setVisible(false);
         buttonGrid.setVisible(false);
+        
+        aiPanel = new JPanel();
+        aiPanel.setBounds(100, 150, 1000, 250);
+        aiPanel.setBackground(background);
+        
+        aiTextField = new JTextArea("Welcome to RISK Game!\n\nHow many AI players?");
+        aiTextField.setBorder(BorderFactory.createEmptyBorder());
+        aiTextField.setBackground(background);
+        aiTextField.setForeground(fontsMain);
+        aiTextField.setEditable(false);
+        aiTextField.setFont(titleFont);
+        
+        aiButtonGrid = new JPanel();
+        aiButtonGrid.setBounds(300, 550, 600, 75);
+        aiButtonGrid.setBackground(background);
+        aiButtonGrid.setLayout(new GridLayout(1, getPlayerCount() - 1));
+        
+        aiButtons = new JButton[getPlayerCount() - 1];
+        
+        for (int i = 0; i < aiButtons.length; i++) {
+            JButton b = new JButton(i + 1 + "");
+            b.setBackground(background);
+            b.setForeground(fontsSecondary);
+            b.setFont(normalFont);
+            b.setFocusPainted(false);
+
+            b.setActionCommand(i + 1 + "");
+            aiButtonGrid.add(b);
+            aiButtons[i] = b;
+        }
+
+        aiPanel.add(aiTextField);
+        con.add(aiButtonGrid);
+        con.add(aiPanel);
+    }
+
+    // screen 3: Get Names of Players
+    public void createPlayerNameScreen() {
+        aiPanel.setVisible(false);
+        aiButtonGrid.setVisible(false);
 
         mainTextPanel = new JPanel();
         mainTextPanel.setBounds(100, 100, 1000, 200);
@@ -168,7 +227,7 @@ public class GameView {
 
     }
 
-    // screen 3: Main game screen
+    // screen 4: Main game screen
     public void createGameScreen() {
 
         mainTextPanel.setVisible(false);
@@ -255,17 +314,32 @@ public class GameView {
         return this.getCountryNumber(player, "Select number which country will attack: ");
 
     }
+    
+    public int aiGetCountryStartAttack(Player player)
+    {
+    	return this.aiGetCountryNumber(player, player.getName() + " has selected this country to attack from");
+    }
 
     public int fromMove(Player player) {
 
-        return this.getCountryNumber(player, "Select number from which country you want to move soliders: ");
+        return this.getCountryNumber(player, "Select number from which country you want to move soldiers: ");
 
+    }
+    
+    public int aiFromMove(Player player)
+    {
+    	return this.aiGetCountryNumber(player, "AI selected to move from country number: ");
     }
 
     public int toLand(Player player, int number) {
 
-        return this.getCountryNumber(player, "You have " + number + " extra soliders\n"
-                + "Select number which country you want to land soliders: ");
+        return this.getCountryNumber(player, "You have " + number + " extra soldiers\n"
+                + "Select number which country you want to land soldiers: ");
+    }
+    
+    public int aiToLand(Player player, int number)
+    {
+    	return this.aiGetCountryNumber(player, player.getName() + " has " + number + " extra soldiers");
     }
 
     public int getCountryNumber(Player player, String message) {
@@ -305,6 +379,55 @@ public class GameView {
         }
         return number;
 
+    }
+    
+    public int aiGetCountryNumber(Player player, String message)
+    {
+    	int number = 0;
+    	
+    	while(true)
+    	{
+    		int count = 1;
+    		String status = "";
+    		for (Country country : player.getOccupiedCountries()) {
+                status += "  " + count + ": " + country.getName() + "(Armies: " + country.getArmies() + ")\n";
+                count++;
+            }
+            bottomLabel2.setText(status);
+            if (count != 1) {
+                bottomLabel.setText(message);
+
+                /*int[] a = IntStream.range(1, count).toArray();
+                Object[] options = new Object[a.length];
+                // copy elements from object array to integer array
+                for (int i = 0; i < a.length; i++) {
+                    options[i] = (Object) a[i];
+                }*/
+                
+                Random r = new Random();
+                int rand = r.nextInt(count);
+                
+                if(rand == 0)
+                	rand++;
+                
+                number = rand;
+                
+                JOptionPane.showMessageDialog(bottomPanel1, "AI selected country number:" + number,
+                        "AI Selected Country", JOptionPane.PLAIN_MESSAGE, null);
+                
+                number--;
+                break;
+
+            } 
+            else 
+            {
+                bottomLabel.setText("Sorry! You don't hold any country.");
+                number = -1;
+                break;
+            }
+    	}
+    	
+    	return number;
     }
 
     public int getCountryOnAttack(Player player, Country attacking) {
@@ -361,10 +484,181 @@ public class GameView {
         }
         return number;
     }
+    
+    public int aiGetCountryOnAttack(Player player, Country attacking)
+    {
+    	int number = 0;
+    	
+    	while(true)
+    	{
+    		int count = 1;
+    		String status = "";
+    		
+    		for (Country country : attacking.getJoining()) {
+                if (country.getOccupant() != player) {
+                    status += "  " + count + ": " + country.getName() + "(Armies: " + country.getArmies() + ")\n";
+                    count++;
+                }
+            }
+            bottomLabel2.setText(status);
+            
+            if(count != 1)
+            {
+            	bottomLabel.setText("AI selected to attack: ");
+            	
+            	Random r = new Random();
+                int rand = r.nextInt(count);
+                
+                if(rand == 0)
+                	rand++;
+                
+                number = rand;
+                
+                JOptionPane.showMessageDialog(null, "AI selected country number:" + number,
+                        "AI Selected Country", JOptionPane.PLAIN_MESSAGE, null);
+                
+                int index = 0;
+                count = 1;
+                for (Country country : attacking.getJoining()) {
+                    if (count == number) {
+                        number = index;
+                        break;
+                    }
+                    if (country.getOccupant() != player) {
+                        count++;
+                    }
+                    index++;
+                }
+                break;
+            }
+            else 
+            {
+                //System.out.println("Sorry! There is no any enemy country near you, Try Again.");
+                number = -1;
+                break;
+            }
+            
+    	}
+    	
+    	return number;
+    }
+    
+    public int getMoveTroupes(Player player, Country movingTo) {
+
+        int number = 0;
+        while (true) {
+            int count = 1;
+            String status = "";
+            for (Country country : movingTo.getJoining()) {
+                if (country.getOccupant() == player) {
+                    status += "  " + count + ": " + country.getName() + "(Armies: " + country.getArmies() + ")\n";
+                    count++;
+                }
+            }
+            bottomLabel2.setText(status);
+            if (count != 1) {
+                bottomLabel.setText("Select number where to move troupes: ");
+
+                int[] a = IntStream.range(1, count).toArray();
+
+                Object[] options = new Object[a.length];
+
+                // copy elements from object array to integer array
+                for (int i = 0; i < a.length; i++) {
+                    options[i] = (Object) a[i];
+                }
+
+                number = (int) (JOptionPane.showInputDialog(null, "Select country number",
+                        "Select country number", JOptionPane.PLAIN_MESSAGE, null, options, options[0]));
+
+                if (number >= 1 && number < count) {
+                    int index = 0;
+                    count = 1;
+                    for (Country country : movingTo.getJoining()) {
+                        if (count == number) {
+                            number = index;
+                            break;
+                        }
+                        if (country.getOccupant() == player) {
+                            count++;
+                        }
+                        index++;
+                    }
+                    break;
+                } else {
+                    System.out.println("Please select correct number!!");
+                }
+            } else {
+                System.out.println("Sorry! There is no any enemy country near you, Try Again.");
+                number = -1;
+                break;
+            }
+
+        }
+        return number;
+    }
+    
+    public int aiGetMoveTroupes(Player player, Country movingTo)
+    {
+    	int number = 0;
+    	
+    	while(true)
+    	{
+    		int count = 1;
+    		String status = "";
+    		
+    		for (Country country : movingTo.getJoining()) {
+                if (country.getOccupant() == player) {
+                    status += "  " + count + ": " + country.getName() + "(Armies: " + country.getArmies() + ")\n";
+                    count++;
+                }
+            }
+            bottomLabel2.setText(status);
+            
+            if(count != 1)
+            {
+            	bottomLabel.setText("AI selected to move troupes to: ");
+            	
+            	Random r = new Random();
+                int rand = r.nextInt(count);
+                
+                if(rand == 0)
+                	rand++;
+                
+                number = rand;
+                
+                JOptionPane.showMessageDialog(null, "AI selected country number:" + number,
+                        "AI Selected Country", JOptionPane.PLAIN_MESSAGE, null);
+                
+                int index = 0;
+                count = 1;
+                for (Country country : movingTo.getJoining()) {
+                    if (count == number) {
+                        number = index;
+                        break;
+                    }
+                    if (country.getOccupant() == player) {
+                        count++;
+                    }
+                    index++;
+                }
+                break;
+            }
+            else 
+            {
+                //System.out.println("Sorry! There is no any enemy country near you, Try Again.");
+                number = -1;
+                break;
+            }
+            
+    	}
+    	
+    	return number;
+    }
 
     public int numberOfSoliders() {
 
-        // System.out.print("\nSelect number of soliders: ");
+        // System.out.print("\nSelect number of soldiers: ");
 
         int numberOfSoldiers = Integer.parseInt(JOptionPane.showInputDialog("Select Soldiers Number", JOptionPane.PLAIN_MESSAGE));
 
@@ -392,9 +686,14 @@ public class GameView {
 
     public void errorFortification() {
 
-//        System.out.println("You don't have enough soliders to move.");
-        bottomLabel.setText("You don't have enough soliders to move.");
+//        System.out.println("You don't have enough soldiers to move.");
+        bottomLabel.setText("You don't have enough soldiers to move.");
 
+    }
+    
+    public void moveTroupes()
+    {
+    	topLabel.setText("MOVE TROUPES PHASE");
     }
 
     public void fail(Player player, Country country) {
@@ -408,6 +707,12 @@ public class GameView {
 
     public void addPlayerCountListener(ActionListener al) {
         for (JButton button : buttons) {
+            button.addActionListener(al);
+        }
+    }
+    
+    public void addAICountListener(ActionListener al) {
+        for (JButton button : aiButtons) {
             button.addActionListener(al);
         }
     }
@@ -427,4 +732,14 @@ public class GameView {
     public void setPlayerCount(int playerCount) {
         this.playerCount = playerCount;
     }
+
+	public int getAiPlayerCount() 
+	{
+		return aiPlayerCount;
+	}
+
+	public void setAiPlayerCount(int aiPlayerCount) 
+	{
+		this.aiPlayerCount = aiPlayerCount;
+	}
 }
