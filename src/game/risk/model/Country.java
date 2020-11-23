@@ -3,21 +3,23 @@ package game.risk.model;
 import java.util.ArrayList;
 
 /**
- *GETS AND SETS COUNTRIES, JOINING AND OCCUPANT. SETS, GETS AND UPDATES ARMIES.
+ * Model for Country.
+ * Stores the name of the Countries, joining (its adjacent countries),
+ * occupant (player occupying the country), and the number of armies held.
+ * @author Tejash
+ * @version 1.0
  */
 public class Country implements Comparable<Country> {
 
-    // Attributes..
     private String name;
     private ArrayList<Country> joining;
     private int armies;
     private Player occupant;
 
 	/**
-	 * Constructor for country.
-	 * Takes a name and a joining.
-	 * @param name
-	 * @param joining
+	 * Constructor for country
+	 * @param name - name of the country
+	 * @param joining - list of connected countries
 	 */
     public Country(String name, ArrayList<Country> joining) {
 
@@ -27,59 +29,57 @@ public class Country implements Comparable<Country> {
     }
 
 	/**
-	 * Constructor for country.
-	 * Takes a name.
-	 * @param name
+	 * Constructor for country. Takes a name.
+	 * @param name - name of the country
 	 */
     public Country(String name) {
-
         this.name = name;
         this.joining = new ArrayList<>();
-
     }
 
 	/**
-	 * Updates the number of armies by the number of armies that should be added and adding it to the armies already existing.
-	 * @param updator
+	 * Updates the number of armies by the number of armies that should be added
+     * and adding it to the armies already existing.
+	 * @param updator - number of armies added
 	 */
     public void updateArmies(int updator) {
         this.armies += updator;
     }
 
 	/**
-	 * Gets the name of the country.
-	 * @return
+	 * Gets the name of the country
+	 * @return name - name of the country
 	 */
     public String getName() {
         return name;
     }
 
 	/**
-	 * Gets the list of countries joining.
-	 * @return
+	 * Gets the list of countries joining
+	 * @return joining - list of connected countries
 	 */
     public ArrayList<Country> getJoining() {
         return joining;
     }
 
 	/**
-	 * Gets the number of armies.
-	 * @return
+	 * Gets the number of armies
+	 * @return armies - number of armies
 	 */
     public int getArmies() {
         return armies;
     }
 
 	/**
-	 * Gets the occupant player.
-	 * @return
+	 * Gets the occupant player
+	 * @return occupant - the player occupying the country
 	 */
     public Player getOccupant() {
         return occupant;
     }
 
 	/**
-	 * Sets the name of the country.
+	 * Sets the name of the country
 	 * @param name
 	 */
     public void setName(String name) {
@@ -87,26 +87,32 @@ public class Country implements Comparable<Country> {
     }
 
 	/**
-	 * Sets the joining of list of countries.
+	 * Sets the joining of list of countries
 	 * @param joining
 	 */
     public void setJoining(ArrayList<Country> joining) {
         this.joining = joining;
     }
 
+    /**
+     * Setter for armies
+     * @param armies
+     */
     public void setArmies(int armies) {
         this.armies = armies;
     }
 
+    /**
+     * Setter for occupant
+     * @param occupant
+     */
     public void setOccupant(Player occupant) {
         this.occupant = occupant;
     }
 
     @Override
     public int compareTo(Country o) {
-
         return this.name.compareTo(o.getName());
-
     }
 
 }
