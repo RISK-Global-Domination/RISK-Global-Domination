@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Model for Country.
  * Stores the name of the Countries, joining (its adjacent countries),
  * occupant (player occupying the country), and the number of armies held.
- * @author Tejash
+ * @author Tejash, Lynn
  * @version 1.0
  */
 public class Country implements Comparable<Country> {

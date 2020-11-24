@@ -8,7 +8,7 @@ import game.risk.controller.DataFetcher;
 /**
  * Model for the RISK game
  * It stores the list of countries, and the list of continents
- * @author Tejash
+ * @author Tejash, Lynn
  * @version 1.0
  */
 public class GameModel {
