@@ -22,14 +22,13 @@ A simplified version of the classic strategy game RISK
 > refer to User_Manual in docs folder for detailed user manual with screenshots
 1) Run the jar file
 2) Input the number of players 
-3) Enter the player's names
-4) The game randomizes countries for each player
-5) Each player is given a certain number of troops at the start of the match based on amount of players
-6) Each player takes a turn placing his or her troops on their territories
-7) Game makes available a minimum of 2 troops for each player to place at the beginning of each turn; with more available based on amount of territories owned, entire continents controlled and any cards played 
+3) Add number of bots
+4) Enter the player and bot's names
+5) The game randomizes countries for each player
+7) Game makes available certain bonus army for each player to place at the beginning of each turn; with more available based on amount of territories owned, entire continents controlled
 8) Player should enter which country he wants to attack and which country he will attack from; can only attack a connected territory.
 9) Step 8 is repeated until either there is no more troops left to attack (1 troop on each territory) or the player decides to stop
-10) Player should then fortify territories based on need; can only move from one location to another as many troops as needed, must keep at least 1 troop on territory
+10) Player then enters Troupe Movement Phase; can only move armies from one location to another as many troops as needed, must keep at least 1 troop on territory
 11) Repeat steps 7-11 for every player
 12) When only one player remains they have won
 
@@ -42,29 +41,25 @@ In Milestone 2, we already had implemented a GUI-based version of the Game using
 For the next milestone, we are suppose to add two things: a save/load feature and a custom map. The save and load feature will allow the player to save the game state so that he can continue the game where he left it. Players will be able to create or upload a map and play it. If the custom map the player is loading is invalid (unreachable countries), the program should reject it.
 
 ## List of Contributions
-- Lynn, Adityo worked on the creating the mvc design
-- Adityo helped in writing the .txt files for mapdata
-- Tejash, Jatin worked on creating the GUI components
-- Tejash, Jatin added JUnit tests
-- All members contributed in the regular meetings and recommanding ideas
+- Tejash, Jatin added bonus army feature, ai player and troupe movement phase
+- Lynn, Adityo worked on bugs and refactoring
 - All members helped in writing the documentation including diagrams
+- All members contributed in the regular meetings and recommanding ideas
 
-## Known issues for milestone 2
+## Known issues for milestone 3
 1. Player name can be an empty string.
-2. In fortification: Select number of soldiers to move doesn't check for valid range.
-3. Pass option is still to be implemented
+3. Attack Phase bug -> currently troops don't die, fix this
 4. Dice rolls are properly implemented in model, however dice rolls are not shown to the user in the GUI.
 5. The JOptionPanel for selecting country number spawns at different location. A good location needs to be found.
 6. The view and controller file ended up a little long. It needs to break into smaller classes.
 
-## Feedback implemented from milestone 1
-1. Created and added javadocs under documentation
-2. Detailed design description was added.
-3. List of contribution added in README
-4. Github was used for peoject development including Github issues and pull requests.
+## Feedback implemented from milestone 2
+1. Made the button text a bit bigger and bolder.
+2. Select extra soldiers made a dropdown, so only valid input can be selected.
+3. SetUp() and TearDown() methods created in unit test for common intializations.
+4. Efforts were made so pull requests gets reviewed by atleast one team member.
 
 # Roadmap Ahead
-- Add additional features like bonus army placement and AI player: We made modular code with strict mvc pattern that will help in implementing new features easily
-- Add Save/Load features and custom maps: We creation separate .txt files for mapdata which will help ahead in easily implementation these features.
-- Work on known issues of milestone 2
+- Work on known issues of milestone 3
 - Improve the Game Board design by adding World image and using graph for connecting countries
+- Add Save/Load features and Custom Maps to the game.

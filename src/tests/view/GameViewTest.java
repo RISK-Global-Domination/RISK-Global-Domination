@@ -1,18 +1,25 @@
 package tests.view;
 
 import game.risk.view.GameView;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class GameViewTest {
 
+    private GameView view;
+
+    @Before
+    public void setUp() throws Exception {
+        view = new GameView();
+    }
+
     /**
      * Test the view's getPlayerCount() function
      */
     @Test
     public void getPlayerCount() {
-        GameView view = new GameView();
         view.setPlayerCount(3);
         assertEquals(3, view.getPlayerCount());
     }
@@ -22,7 +29,6 @@ public class GameViewTest {
      */
     @Test
     public void getNames() {
-        GameView view = new GameView();
         view.createPlayerCountScreen();
         view.createPlayerNameScreen();
         assertEquals(0, view.getNames().length);
@@ -33,7 +39,6 @@ public class GameViewTest {
      */
     @Test
     public void setPlayerCount() {
-        GameView view = new GameView();
         view.setPlayerCount(5);
         assertEquals(5, view.getPlayerCount());
     }
