@@ -15,6 +15,7 @@ import game.risk.model.Player;
 
 /**
  * Return the report of the game, fetches players, the countries attacked and errors.
+ *
  * @author Tejash, Lynn, Jatin, Adityo
  * @version 1.0
  */
@@ -22,22 +23,21 @@ public class GameView {
 
     private int playerCount, aiPlayerCount;
 
-    // components - screen 1
+    // components - screen 1 (Welcome screen - choose number of players)
     private final JFrame gameFrame;
-    private final Container con;
+    private final Container container;
     private JPanel gameTfPanel;
     private JTextArea gameTextField;
     private JPanel buttonGrid;
     private JButton[] buttons;
 
-    //components - aicount screen
+    //components - aicount screen - (Choose number of ai players)
     private JPanel aiPanel;
     private JTextArea aiTextField;
     private JPanel aiButtonGrid;
     private JButton[] aiButtons;
 
-
-    // components - screen 3
+    // components - screen 3 - (Add names of players and bots)
     private JPanel mainTextPanel;
     private JTextArea mainTextArea;
     private JPanel inputPanel;
@@ -45,41 +45,40 @@ public class GameView {
     private JPanel okButtonPanel;
     private JButton ok;
 
-    // fonts
-    Font titleFont = new Font("Times New Roman", Font.PLAIN, 70);
-    Font normalFont = new Font("Times New Roman", Font.PLAIN, 28);
-
-    // components - 4
+    // components - 4 - main game screen (shows game board, who's turn, status of the game)
     private JPanel topPanel;
     private JLabel topLabel;
     private JPanel middlePanel;
-    private JPanel bottomPanel2;
+    private JPanel bottomPanelRight;
     private JTextArea[] middleTextArea;
-    private JPanel bottomPanel1;
-    private JTextArea bottomLabel;
-    private JTextArea bottomLabel2;
-    private JTextArea bottomLabelResult;
+    private JPanel statusPanel2;
+    private JTextArea statusLabel2;
+    private JTextArea bottomLabelRight;
+    private JTextArea statusLabel;
+    private JPanel statusPanel;
+
+    // fonts
+    Font titleFont = new Font("Times New Roman", Font.PLAIN, 70);
+    Font normalFont = new Font("Times New Roman", Font.PLAIN, 28);
 
     // font colors
     private final Color background = Color.BLACK;
     private final Color fontsMain = Color.CYAN;
     private final Color fontsSecondary = Color.WHITE;
-    private JPanel bottomPanel3;
-    private Paint Paint;
 
-
-    // constructor
+    /**
+     * Constructor - GameView
+     */
     public GameView() {
 
-        // Attributes...
         gameFrame = new JFrame("RISK: Global Domination");
         gameFrame.setLayout(null);
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        con = gameFrame.getContentPane();
-        con.setBackground(background);
-
+        container = gameFrame.getContentPane();
+        container.setBackground(background);
         gameFrame.setSize(1200, 800);
         gameFrame.setVisible(true);
+
     }
 
     // Screen 1 : Count Player Number
@@ -110,10 +109,8 @@ public class GameView {
             JButton b = new JButton(i + 2 + "");
             b.setBackground(background);
             b.setForeground(fontsSecondary);
-            b.setFont(normalFont);
+            b.setFont(titleFont);
             b.setFocusPainted(false);
-
-            // b.addActionListener(new GameController.PlayerCountListener());
             b.setActionCommand(i + 2 + "");
             buttonGrid.add(b);
             buttons[i] = b;
@@ -121,8 +118,8 @@ public class GameView {
 
         gameTfPanel.add(iconLabel, BorderLayout.NORTH);
         gameTfPanel.add(gameTextField, BorderLayout.SOUTH);
-        con.add(buttonGrid);
-        con.add(gameTfPanel);
+        container.add(buttonGrid);
+        container.add(gameTfPanel);
         gameFrame.revalidate();
     }
 
@@ -153,7 +150,7 @@ public class GameView {
             JButton b = new JButton(i + "");
             b.setBackground(background);
             b.setForeground(fontsSecondary);
-            b.setFont(normalFont);
+            b.setFont(titleFont);
             b.setFocusPainted(false);
 
             b.setActionCommand(i + "");
@@ -162,8 +159,8 @@ public class GameView {
         }
 
         aiPanel.add(aiTextField);
-        con.add(aiButtonGrid);
-        con.add(aiPanel);
+        container.add(aiButtonGrid);
+        container.add(aiPanel);
     }
 
     // screen 3: Get Names of Players
@@ -174,7 +171,7 @@ public class GameView {
         mainTextPanel = new JPanel();
         mainTextPanel.setBounds(100, 100, 1000, 200);
         mainTextPanel.setBackground(background);
-        con.add(mainTextPanel);
+        container.add(mainTextPanel);
 
         mainTextArea = new JTextArea("Enter player names and press OK");
         mainTextArea.setBounds(100, 100, 1000, 250);
@@ -188,7 +185,7 @@ public class GameView {
         inputPanel.setBounds(250, 300, 500, 150);
         inputPanel.setBackground(background);
         inputPanel.setLayout(new GridLayout(playerCount, 2));
-        con.add(inputPanel);
+        container.add(inputPanel);
 
         names = new JTextField[playerCount];
 
@@ -215,16 +212,12 @@ public class GameView {
             inputPanel.add(pTf);
         }
 
-        okButtonPanel = new
-
-                JPanel();
+        okButtonPanel = new JPanel();
         okButtonPanel.setBounds(250, 550, 300, 100);
         okButtonPanel.setBackground(background);
-        con.add(okButtonPanel);
+        container.add(okButtonPanel);
 
-        ok = new
-
-                JButton("OK");
+        ok = new JButton("OK");
         ok.setBackground(background);
         ok.setForeground(fontsMain);
         ok.setFont(titleFont);
@@ -243,7 +236,7 @@ public class GameView {
         topPanel = new JPanel();
         topPanel.setBounds(200, 10, 800, 100);
         topPanel.setBackground(background);
-        con.add(topPanel);
+        container.add(topPanel);
 
         topLabel = new JLabel("Welcome to RISK Board!");
         topLabel.setFont(titleFont);
@@ -257,7 +250,7 @@ public class GameView {
         middlePanel.setLayout(new GridLayout(1, playerCount));
         Border tb = BorderFactory.createTitledBorder("Game");
         middlePanel.setBorder(BorderFactory.createTitledBorder(tb, "Game Board", 0, 0, null, fontsMain));
-        con.add(middlePanel);
+        container.add(middlePanel);
 
         middleTextArea = new JTextArea[playerCount];
 
@@ -270,46 +263,46 @@ public class GameView {
             middlePanel.add(middleTextArea);
         }
 
-        bottomPanel1 = new JPanel();
-        bottomPanel1.setBounds(50, 580, 650, 175);
-        bottomPanel1.setBackground(background);
-        //Border tb3 = BorderFactory.createTitledBorder("Game");
-        //bottomPanel1.setBorder(BorderFactory.createTitledBorder(tb3, "Game Status", 0, 0, null, fontsMain));
+        statusPanel2 = new JPanel();
+        statusPanel2.setBounds(50, 580, 650, 175);
+        statusPanel2.setBackground(background);
 
-        con.add(bottomPanel1);
+        container.add(statusPanel2);
 
-        bottomLabel = new JTextArea("Game Status :");
-        bottomLabel.setFont(normalFont);
-        bottomLabel.setBackground(background);
-        bottomLabel.setForeground(fontsMain);
+        statusLabel2 = new JTextArea("Game Status :");
+        statusLabel2.setFont(normalFont);
+        statusLabel2.setBackground(background);
+        statusLabel2.setForeground(fontsMain);
 
-        bottomPanel3 = new JPanel();
-        bottomPanel3.setBounds(50, 480, 625, 100);
-        bottomPanel3.setBackground(background);
-        //Border tb2 = BorderFactory.createTitledBorder("Game");
-        //bottomPanel3.setBorder(BorderFactory.createTitledBorder(tb2, "Current Phase", 0, 0, null, fontsMain));
+        statusPanel = new JPanel();
+        statusPanel.setBounds(50, 480, 625, 100);
+        statusPanel.setBackground(background);
 
-        con.add(bottomPanel3);
+        container.add(statusPanel);
 
-        bottomLabelResult = new JTextArea("");
-        bottomLabelResult.setFont(normalFont);
-        bottomLabelResult.setBackground(background);
-        bottomLabelResult.setForeground(fontsSecondary);
+        statusLabel = new JTextArea("");
+        statusLabel.setFont(normalFont);
+        statusLabel.setBackground(background);
+        statusLabel.setForeground(fontsSecondary);
 
-        bottomPanel1.add(bottomLabel);
-        bottomPanel3.add(bottomLabelResult);
+        statusPanel2.add(statusLabel2);
+        statusPanel.add(statusLabel);
 
-        bottomPanel2 = new JPanel();
-        bottomPanel2.setBounds(675, 510, 400, 450);
-        bottomPanel2.setBackground(background);
-        con.add(bottomPanel2);
+        bottomPanelRight = new JPanel();
+        bottomPanelRight.setBounds(675, 510, 400, 450);
+        bottomPanelRight.setBackground(background);
+        container.add(bottomPanelRight);
 
-        bottomLabel2 = new JTextArea();
-        bottomLabel2.setBackground(background);
-        bottomLabel2.setForeground(fontsSecondary);
-        bottomPanel2.add(bottomLabel2);
+        bottomLabelRight = new JTextArea();
+        bottomLabelRight.setBackground(background);
+        bottomLabelRight.setForeground(fontsSecondary);
+        bottomPanelRight.add(bottomLabelRight);
     }
 
+    /**
+     * Prints the game report onto the Game Board section in GUI
+     * @param players - list of players
+     */
     public void completeReport(ArrayList<Player> players) {
 
         int i = 0;
@@ -328,15 +321,11 @@ public class GameView {
 
     // Doing turn.
     public void takeTurn(Player player) {
-
         topLabel.setText(">>> " + player.getName() + "'s TURN <<<");
-
     }
 
     public int getCountryStartAttack(Player player) {
-
         return this.getCountryNumber(player, "Select number which country will attack: ");
-
     }
 
     public int aiGetCountryStartAttack(Player player) {
@@ -344,9 +333,7 @@ public class GameView {
     }
 
     public int fromMove(Player player) {
-
         return this.getCountryNumber(player, "Select number from which country you want \n to move soldiers: ");
-
     }
 
     public int aiFromMove(Player player) {
@@ -354,20 +341,17 @@ public class GameView {
     }
 
     public int toLand_BonusArmy(Player player, int number) {
-
         return this.getCountryNumber(player, "You have " + number + " bonus soldiers \n (for holding " +
-                player.getOccupiedCountries().size() + " countries & " + player.getOccupiedContinents().size() + " continents)\n"
-                + "Select number which country you want to land soldiers: ");
+                player.getOccupiedCountries().size() + " countries & " + player.getOccupiedContinents().size() +
+                " continents)\n" + "Select number which country you want to land soldiers: ");
     }
 
     public int toLand(Player player, int number) {
-
         return this.getCountryNumber(player, "You have " + number + " extra soldiers\n"
                 + "Select number which country you want to land soldiers: ");
     }
 
     public int aitoLand_BonusArmy(Player player, int number) {
-
         return this.aiGetCountryNumber(player, player.getName() + " has " + number + " bonus soldiers \n (Countries=" +
                 player.getOccupiedCountries().size() + "& continents=" + player.getOccupiedContinents().size() + ")");
     }
@@ -377,7 +361,6 @@ public class GameView {
     }
 
     public int getCountryNumber(Player player, String message) {
-
         int number;
         while (true) {
             int count = 1;
@@ -386,9 +369,9 @@ public class GameView {
                 status += "  " + count + ": " + country.getName() + "(Armies: " + country.getArmies() + ")\n";
                 count++;
             }
-            bottomLabel2.setText(status);
+            bottomLabelRight.setText(status);
             if (count != 1) {
-                bottomLabel.setText(message);
+                statusLabel2.setText(message);
 
                 int[] a = IntStream.range(1, count).toArray();
                 Object[] options = new Object[a.length];
@@ -396,23 +379,22 @@ public class GameView {
                 for (int i = 0; i < a.length; i++) {
                     options[i] = a[i];
                 }
-                number = (int) (JOptionPane.showInputDialog(bottomPanel1, "Select country number",
+                number = (int) (JOptionPane.showInputDialog(statusPanel2, "Select country number",
                         "Select Country Number", JOptionPane.PLAIN_MESSAGE, null, options, options[0]));
 
                 if (number >= 1 && number < count) {
                     number--;
                     break;
                 } else {
-                    bottomLabel.setText("Please select correct number!!");
+                    statusLabel2.setText("Please select correct number!!");
                 }
             } else {
-                bottomLabel.setText("Sorry! You don't hold any country.");
+                statusLabel2.setText("Sorry! You don't hold any country.");
                 number = -1;
                 break;
             }
         }
         return number;
-
     }
 
     public int aiGetCountryNumber(Player player, String message) {
@@ -425,31 +407,27 @@ public class GameView {
                 status += "  " + count + ": " + country.getName() + "(Armies: " + country.getArmies() + ")\n";
                 count++;
             }
-            bottomLabel2.setText(status);
+            bottomLabelRight.setText(status);
             if (count != 1) {
-                bottomLabel.setText(message);
+                statusLabel2.setText(message);
 
                 Random r = new Random();
                 int rand = r.nextInt(count);
 
                 if (rand == 0)
                     rand++;
-
                 number = rand;
 
-                JOptionPane.showMessageDialog(bottomPanel1, "AI selected country number:" + number,
+                JOptionPane.showMessageDialog(statusPanel2, "AI selected country number:" + number,
                         "AI Selected Country", JOptionPane.PLAIN_MESSAGE, null);
-
                 number--;
                 break;
-
             } else {
-                bottomLabel.setText("Sorry! You don't hold any country.");
+                statusLabel2.setText("Sorry! You don't hold any country.");
                 number = -1;
                 break;
             }
         }
-
         return number;
     }
 
@@ -465,10 +443,10 @@ public class GameView {
                     count++;
                 }
             }
-            bottomLabel2.setText(status);
+            bottomLabelRight.setText(status);
             if (count != 1) {
-                bottomLabelResult.setText("");
-                bottomLabel.setText("Select number where to attack: ");
+                statusLabel.setText("");
+                statusLabel2.setText("Select number where to attack: ");
 
                 int[] a = IntStream.range(1, count).toArray();
 
@@ -498,15 +476,14 @@ public class GameView {
                     break;
                 } else {
                     System.out.println("Please select correct number!!");
-                    bottomLabelResult.setText("Please select correct number!!");
+                    statusLabel.setText("Please select correct number!!");
                 }
             } else {
                 System.out.println("Sorry! There is no any enemy country near you, Try Again.");
-                bottomLabelResult.setText("Sorry! There is no any enemy country near you,\n Try Again.");
+                statusLabel.setText("Sorry! There is no any enemy country near you,\n Try Again.");
                 number = -1;
                 break;
             }
-
         }
         return number;
     }
@@ -524,10 +501,10 @@ public class GameView {
                     count++;
                 }
             }
-            bottomLabel2.setText(status);
+            bottomLabelRight.setText(status);
 
             if (count != 1) {
-                bottomLabel.setText("AI selected to attack: ");
+                statusLabel2.setText("AI selected to attack: ");
 
                 Random r = new Random();
                 int rand = r.nextInt(count);
@@ -555,13 +532,11 @@ public class GameView {
                 break;
             } else {
                 System.out.println("Sorry! There is no any enemy country near you, Try Again.");
-                bottomLabelResult.setText("Sorry! There is no any enemy country near you,\n Try Again.");
+                statusLabel.setText("Sorry! There is no any enemy country near you,\n Try Again.");
                 number = -1;
                 break;
             }
-
         }
-
         return number;
     }
 
@@ -577,10 +552,10 @@ public class GameView {
                     count++;
                 }
             }
-            bottomLabel2.setText(status);
+            bottomLabelRight.setText(status);
             if (count != 1) {
-                bottomLabelResult.setText("");
-                bottomLabel.setText("Select number where to move troupes: ");
+                statusLabel.setText("");
+                statusLabel2.setText("Select number where to move troupes: ");
 
                 int[] a = IntStream.range(1, count).toArray();
 
@@ -610,16 +585,14 @@ public class GameView {
                     break;
                 } else {
                     System.out.println("Please select correct number!!");
-                    bottomLabelResult.setText("Please select correct number!!");
-
+                    statusLabel.setText("Please select correct number!!");
                 }
             } else {
                 System.out.println("Sorry! There is no any enemy country near you, Try Again.");
-                bottomLabelResult.setText("Sorry! There is no any enemy country near you,\n Try Again.");
+                statusLabel.setText("Sorry! There is no any enemy country near you,\n Try Again.");
                 number = -1;
                 break;
             }
-
         }
         return number;
     }
@@ -637,10 +610,10 @@ public class GameView {
                     count++;
                 }
             }
-            bottomLabel2.setText(status);
+            bottomLabelRight.setText(status);
 
             if (count != 1) {
-                bottomLabel.setText("AI selected to move troupes to: ");
+                statusLabel2.setText("AI selected to move troupes to: ");
 
                 Random r = new Random();
                 int rand = r.nextInt(count);
@@ -668,46 +641,40 @@ public class GameView {
                 break;
             } else {
                 System.out.println("Sorry! There is no any enemy country near you, Try Again.");
-                bottomLabelResult.setText("Sorry! There is no any enemy country near you,\n Try Again.");
+                statusLabel.setText("Sorry! There is no any enemy country near you,\n Try Again.");
                 number = -1;
                 break;
             }
-
         }
-
         return number;
     }
 
-    public int numberOfSoliders() {
+    public int numberOfSoliders(int maxSoldiers) {
 
-        return Integer.parseInt(JOptionPane.showInputDialog("Select Soldiers Number", JOptionPane.PLAIN_MESSAGE));
+        int[] a = IntStream.range(1, maxSoldiers).toArray();
 
+        Object[] options = new Object[a.length];
+
+        // copy elements from object array to integer array
+        for (int i = 0; i < a.length; i++) {
+            options[i] = a[i];
+        }
+
+        return (int) (JOptionPane.showInputDialog(null, "How many soldiers to move?",
+                "Select number of soldiers", JOptionPane.PLAIN_MESSAGE, null, options, options[0]));
     }
 
     public void conquered(Player player, Country country) {
-
-//        System.out.println("************************************************");
-//        System.out.println("********************* CONQURED *****************");
-//        System.out.println(player.getName() + " conquered " + country.getName());
-//        System.out.println("************************************************");
-
-        bottomLabelResult.setText(player.getName() + " conquered " + country.getName() + "!!!");
-
+        statusLabel.setText(player.getName() + " conquered " + country.getName() + "!!!");
     }
 
     public void fortification() {
-
-//        System.out.println("****************** FORTIFICATION ***************");
         topLabel.setText("FORTIFICATION");
-
     }
 
     public void errorFortification() {
-
-//        System.out.println("You don't have enough soldiers to move.");
-        bottomLabelResult.setText("");
-        bottomLabel.setText("You don't have enough soldiers to move.");
-
+        statusLabel.setText("");
+        statusLabel2.setText("You don't have enough soldiers to move.");
     }
 
     public void moveTroupes() {
@@ -715,12 +682,7 @@ public class GameView {
     }
 
     public void fail(Player player, Country country) {
-
-//        System.out.println("********************* FAILED *****************");
-//        System    .out.println(player.getName() + " failed to conquered " + country.getName());
-//        System.out.println("********************* FAILED *****************");
-        bottomLabelResult.setText(player.getName() + " failed to conquered " + country.getName() + "!!!");
-
+        statusLabel.setText(player.getName() + " failed to conquered " + country.getName() + "!!!");
     }
 
     public void addPlayerCountListener(ActionListener al) {
@@ -758,5 +720,4 @@ public class GameView {
     public void setAiPlayerCount(int aiPlayerCount) {
         this.aiPlayerCount = aiPlayerCount;
     }
-
 }
