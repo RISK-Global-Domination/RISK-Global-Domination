@@ -10,7 +10,7 @@ import game.risk.model.Country;
 
 /**
  * DataFetcher - Fetches the countries and continent names from the text files
- * @author Tejash
+ * @author Adityo, Tejash, Jatin
  * @version 1.0
  */
 public class DataFetcher {

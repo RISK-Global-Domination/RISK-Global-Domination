@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Model for Player.
  * Stores the name of the player, number of total armies player posses,
  * as well as list of occupied countries and continents.
- * @author Tejash
+ * @author Jatin, Adityo
  * @version 1.0
  */
 public class Player {

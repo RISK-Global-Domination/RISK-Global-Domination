@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Model for Continents.
  * Continent contains the list of countries it has.
- * @author Tejash
+ * @author Tejash, Lynn
  * @version 1.0
  */
 public class Continent {
