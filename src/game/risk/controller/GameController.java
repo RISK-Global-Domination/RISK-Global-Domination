@@ -13,9 +13,9 @@ import game.risk.model.Player;
 import game.risk.view.GameView;
 
 /**
- * EXECUTES THE GAME'S STATUS, ALLOWS THE COMMAND OF FORFEITING,
- * CONQUERING A COUNTRY WITH THE NUMBER OF ARMIES YOU WANT TO GO WITH,
- * ROLL DICE, END A TURN AND GET THE WINNER OF THE GAME.
+ * Executes the Game's status, allows the command of Forfeiting,
+ * conquering a country with the number of armies you want to go with,
+ * roll dixe, end a turn and get the winner of the game.
  * @author Tejash, Jatin, Lynn, Adityo
  * @version 1.0
  */
@@ -47,7 +47,7 @@ public class GameController {
         view.addPlayerCountListener(new PlayerCountListener());
     }
 
-    public void execute2() {
+    public void allocateRandomCountries() {
 
         // Shuffle Countries
         model.shuffleCountries();
@@ -79,7 +79,7 @@ public class GameController {
         }
     }
 
-    public void execute3() {
+    public void startGame() {
         // starting of game.
         while (!isEnd()) {
             // each user turn.
@@ -94,13 +94,9 @@ public class GameController {
                 if (player.getPlayerNumber() < (view.getPlayerCount() - view.getAiPlayerCount())) {
                     do {
                         view.takeTurn(player);
-
-
                         // Place Bonus Armies
-
                         int bonusArmy = Math.max(3, player.getOccupiedCountries().size()/3 +
                                 player.getOccupiedContinents().size()*2);
-
                         to = view.toLand_BonusArmy(player, bonusArmy);
                         to = getFromIndex(player, to);
                         model.getCountries().get(to).updateArmies(bonusArmy);
@@ -125,7 +121,6 @@ public class GameController {
                         break;
                     }
                 }
-
                 // AI Player
                 else {
                     do {
@@ -243,7 +238,7 @@ public class GameController {
         moveTroupesTo = view.getMoveTroupes(player, model.getCountries().get(moveTroupesFrom));
         moveTroupesTo = getToIndex(moveTroupesTo, moveTroupesFrom);
 
-        int soldiers = view.numberOfSoliders();
+        int soldiers = view.numberOfSoliders(Math.abs(model.getCountries().get(Math.abs(moveTroupesFrom)).getArmies() - 1));
         if (soldiers <= (model.getCountries().get(moveTroupesFrom).getArmies() - 1)) {
             model.getCountries().get(moveTroupesFrom).updateArmies(-soldiers);
             model.getCountries().get(moveTroupesTo).updateArmies(soldiers);
@@ -291,11 +286,10 @@ public class GameController {
     }
 
     private void fortification(Player player) {
-
         view.fortification();
         int from = view.fromMove(player);
         from = getFromIndex(player, from);
-        int soldiers = view.numberOfSoliders();
+        int soldiers = view.numberOfSoliders(Math.abs(model.getCountries().get(Math.abs(from)).getArmies() - 1));
         if (soldiers <= (model.getCountries().get(from).getArmies() - 1)) {
             int to = view.toLand(player, soldiers);
             to = getFromIndex(player, to);
@@ -304,7 +298,6 @@ public class GameController {
         } else {
             view.errorFortification();
         }
-
     }
 
     private void aiFortification(Player player) {
@@ -400,8 +393,8 @@ public class GameController {
 
             view.createGameScreen();
 
-            execute2();
-            execute3();
+            allocateRandomCountries();
+            startGame();
         }
     }
 }
