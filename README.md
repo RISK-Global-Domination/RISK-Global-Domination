@@ -34,11 +34,12 @@ A simplified version of the classic strategy game RISK
 12) When only one player remains they have won
 
 ## Design Decisions
-The purpose of this milestone is to implement a GUI-based version of the Game using MVC design. We will have a working user interface where the user input is via mouse.
+The purpose of this milestone is to have additional features to our game. When a player holds a hole continent, he should be receiving more armies when reinforcement happens at the beggining of the player's turn. The number of bonus armies depend on which continent you have occupied. The reinforcement happens before the attack. After the attack, the player can choose to move his troup from a country to another country connected to it by being occupied by the same player. The player should keep at least one troupe in each of his conquered countires. He can only to the movement once. An "AI" player is also implemented where any number of in the game can be assigned to be an "AI" player.
 
-In Milestone 1, we already had the MVC model in our code, therefor what we needed to do for this Milestone is to add the JFrame. For the Game Controller, we decided to split the execution to 3 parts, as we would like to execute asking for the number of players, setting up and starting the game seperately. We added listeners to these events. In the GameView, we set up the game's frame by designing what we would appear to on the screen of the user. We also designed the buttons to generate the different events, for example when we select 2 players, it will ask for two player's names and play the game for 2 players. We also added test cases for the Model.
+In Milestone 2, we already had implemented a GUI-based version of the Game using MVC design and a working user interface where the user input is via mouse. In this milestone, we added the "AI" player: in the GameController, we added an aiFortification method that fortifies the troup of the ai and an aiCountListener that listens to the event of inputing the number of ai players and we added in the execute methods the ai player; in the view, we added methods that are the same as the ones dealing with the player's view but for the ai. We also added the move troups method (getMoveTroupes) in the view that allows the player or the ai to move troups to the correct country (if not an error message will appear).
 
-For the next milestone, we are suppose to add features such as bonus army placement for holding whole continents, troupe movement phase, reinforcement of armies proportional to the number of countries held and an "AI" player. We are suppose to make a smell free code, the next challenge would be implement the "AI" player.
+
+For the next milestone, we are suppose to add two things: a save/load feature and a custom map. The save and load feature will allow the player to save the game state so that he can continue the game where he left it. Players will be able to create or upload a map and play it. If the custom map the player is loading is invalid (unreachable countries), the program should reject it.
 
 ## List of Contributions
 - Lynn, Adityo worked on the creating the mvc design
