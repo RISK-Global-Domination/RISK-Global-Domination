@@ -1,18 +1,25 @@
 package tests.model;
 
 import game.risk.model.Country;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class CountryTest {
 
+    private Country c;
+
+    @Before
+    public void setUp() throws Exception {
+        c = new Country("Canada", null);
+    }
+
     /**
      * Test the getName() function
      */
     @Test
     public void getName() {
-        Country c = new Country("Canada", null);
         assertEquals("Canada", c.getName());
     }
 
@@ -21,7 +28,6 @@ public class CountryTest {
      */
     @Test
     public void getArmies() {
-        Country c = new Country("Canada", null);
         c.updateArmies(5);
         assertEquals(5, c.getArmies());
     }
