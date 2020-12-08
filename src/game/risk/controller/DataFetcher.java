@@ -1,19 +1,15 @@
 package game.risk.controller;
 
-import game.risk.model.Continent;
-import game.risk.model.Country;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import game.risk.model.Continent;
+import game.risk.model.Country;
+
 /**
  * DataFetcher - Fetches the countries and continent names from the text files
- *
  * @author Adityo, Tejash, Jatin
  * @version 1.0
  */
@@ -35,26 +31,7 @@ public class DataFetcher {
     }
 
     /**
-     * Retrieve String into file
-     *
-     * @param file file coosen from dialog
-     * @return String into file
-     */
-    public static String readFileAsString(File file) {
-        if (file != null) {
-            try {
-                return Files.readString(file.toPath(), StandardCharsets.UTF_8);
-            } catch (IOException e) {
-                System.err.println(e.getLocalizedMessage());
-                System.out.println("Unable to open file: " + file.getAbsolutePath() + " error: " + e.getLocalizedMessage());
-            }
-        }
-        return null;
-    }
-
-    /**
      * Gets a list of continents.
-     *
      * @return continents - The list of continents
      */
     public ArrayList<Continent> getContinents() {
@@ -63,7 +40,6 @@ public class DataFetcher {
 
     /**
      * Gets the list of countries.
-     *
      * @return countries - The list of countries
      */
     public ArrayList<Country> getCountries() {
@@ -105,7 +81,6 @@ public class DataFetcher {
 
     /**
      * Converts the arraylist of string of country names to arraylist of country object
-     *
      * @param names - list of strings of country names
      * @return list - list of Countries
      */
