@@ -1,5 +1,6 @@
 package game.risk.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,9 +9,11 @@ import java.util.ArrayList;
  * @author Tejash, Lynn
  * @version 1.0
  */
-public class Continent {
+public class Continent implements Serializable{
 
-    private String name;
+	private static final long serialVersionUID = -2062408928426493437L;
+	
+	private String name;
     private ArrayList<Country> countries;
 
     /**

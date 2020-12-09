@@ -1,12 +1,25 @@
 package game.risk.view;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
@@ -21,11 +34,24 @@ import game.risk.model.Player;
  */
 public class GameView {
 
-    private int playerCount, aiPlayerCount;
+	private int playerCount, aiPlayerCount, filesCount;
+	
+	//components - screen 1 (Welcome Screen - new game or load saved game)
+	private final JFrame gameFrame;
+	private final Container container;
+	private JPanel mainMenuPanel;
+	private JTextArea mainMenuTextField;
+	private JPanel mainMenuButtonGrid;
+	private JButton[] mainMenuButtons;
+	private JLabel noSavedGames;
+	
+	//components - screen 2 (Load Screen)
+	private JPanel loadTopPanel;
+	private JLabel loadTopLabel;
+	private JPanel loadMiddlePanel;
+	private JTextArea[] loadMiddleTextArea;
 
-    // components - screen 1 (Welcome screen - choose number of players)
-    private final JFrame gameFrame;
-    private final Container container;
+    // components - screen 2 (Welcome screen - choose number of players)
     private JPanel gameTfPanel;
     private JTextArea gameTextField;
     private JPanel buttonGrid;
@@ -37,7 +63,7 @@ public class GameView {
     private JPanel aiButtonGrid;
     private JButton[] aiButtons;
 
-    // components - screen 3 - (Add names of players and bots)
+    // components - screen 4 - (Add names of players and bots)
     private JPanel mainTextPanel;
     private JTextArea mainTextArea;
     private JPanel inputPanel;
@@ -45,7 +71,7 @@ public class GameView {
     private JPanel okButtonPanel;
     private JButton ok;
 
-    // components - 4 - main game screen (shows game board, who's turn, status of the game)
+    // components - 5 - main game screen (shows game board, who's turn, status of the game)
     private JPanel topPanel;
     private JLabel topLabel;
     private JPanel middlePanel;
@@ -80,19 +106,129 @@ public class GameView {
         gameFrame.setVisible(true);
 
     }
+    
+    //Screen 1 : Main Menu
+    public void createMainMenuScreen()
+    {
+       	mainMenuPanel = new JPanel();
+    	mainMenuPanel.setBounds(100, 25, 1000, 425);
+    	mainMenuPanel.setBackground(background);
+    	mainMenuPanel.setLayout(new BorderLayout());
+    	
+    	ImageIcon icon = new ImageIcon("risk_logo.png");
+        JLabel iconLabel = new JLabel(icon);
+        iconLabel.setBorder(new EmptyBorder(0, 0, 10, 0));
+        mainMenuTextField = new JTextArea("Welcome to RISK Game!");
+        mainMenuTextField.setBackground(background);
+        mainMenuTextField.setForeground(fontsMain);
+        mainMenuTextField.setEditable(false);
+        mainMenuTextField.setFont(titleFont);
+        
+        mainMenuButtonGrid = new JPanel();
+        mainMenuButtonGrid.setBounds(300, 550, 600, 75);
+        mainMenuButtonGrid.setBackground(background);
+        mainMenuButtonGrid.setLayout(new GridLayout(1, 2));
+        
+        mainMenuButtons = new JButton[2];
+        
+        for (int i = 0; i < mainMenuButtons.length; i++) {
+            JButton b = new JButton();
+            if(i == 0)
+            {
+            	b.setText("New Game");
+            	b.setActionCommand("Play");
+            }
+            else
+            {
+            	b.setText("Load Game");
+            	b.setActionCommand("Load");
+            }
+            b.setBackground(background);
+            b.setForeground(fontsSecondary);
+            b.setFont(normalFont);
+            b.setFocusPainted(false);
+            mainMenuButtonGrid.add(b);
+            mainMenuButtons[i] = b;
+        }
+        
+        noSavedGames = new JLabel("");
+        noSavedGames.setBackground(background);
+        noSavedGames.setForeground(fontsMain);
+        noSavedGames.setFont(titleFont);
+        
+        mainMenuPanel.add(noSavedGames);
+        
+        mainMenuPanel.add(iconLabel, BorderLayout.NORTH);
+        mainMenuPanel.add(mainMenuTextField, BorderLayout.SOUTH);
+        container.add(mainMenuButtonGrid);
+        container.add(mainMenuPanel);
+        gameFrame.revalidate();
+    }
+    
+    //Screen 2 : Load Screen
+    public int createLoadScreen()
+    {
+    	mainMenuPanel.setVisible(false);
+    	mainMenuButtonGrid.setVisible(false);
+    	
+    	loadTopPanel = new JPanel();
+    	loadTopPanel.setBounds(200, 10, 800, 100);
+    	loadTopPanel.setBackground(background);
+        container.add(loadTopPanel);
+        
+        loadTopLabel = new JLabel("Load a Game");
+        loadTopLabel.setFont(titleFont);
+        loadTopLabel.setBackground(background);
+        loadTopLabel.setForeground(fontsMain);
+    	loadTopPanel.add(loadTopLabel);
+    	
+    	loadMiddlePanel = new JPanel();
+    	loadMiddlePanel.setBounds(50, 110, 1050, 375);
+    	loadMiddlePanel.setBackground(background);
+	    	loadMiddlePanel.setLayout(new GridLayout(1, filesCount));
+	        Border tb = BorderFactory.createTitledBorder("Game");
+	        loadMiddlePanel.setBorder(BorderFactory.createTitledBorder(tb, "Files", 0, 0, null, fontsMain));
+	        container.add(loadMiddlePanel);
+	
+	        loadMiddleTextArea = new JTextArea[filesCount];
+	        
+	        for (int i = 0; i < filesCount; i++) {
+	            JTextArea loadMiddleTextArea = new JTextArea("This is the load board");
+	            loadMiddleTextArea.setBackground(background);
+	            loadMiddleTextArea.setForeground(fontsSecondary);
+	            loadMiddleTextArea.setLineWrap(false);
+	            this.loadMiddleTextArea[i] = loadMiddleTextArea;
+	            loadMiddlePanel.add(loadMiddleTextArea);
+	        }
+	        
+	        loadScreenFiles();
+	        
+	        Object[] options = new Object[filesCount];
+	        
+	        for (int i = 0; i < filesCount; i++) {
+                options[i] = i + 1;
+            }
+			
+			int number = (int) (JOptionPane.showInputDialog(statusPanel2, "Select load file number",
+	                "Select Load File Number", JOptionPane.PLAIN_MESSAGE, null, options, options[0]));
+			
+			return number;
+    }
 
-    // Screen 1 : Count Player Number
+    // Screen 2 : Count Player Number
     public void createPlayerCountScreen() {
+    	mainMenuPanel.setVisible(false);
+    	mainMenuButtonGrid.setVisible(false);
 
         gameTfPanel = new JPanel();
-        gameTfPanel.setBounds(100, 25, 1000, 425);
+        gameTfPanel.setBounds(100, 150, 1000, 250);
         gameTfPanel.setBackground(background);
         gameTfPanel.setLayout(new BorderLayout());
 
         ImageIcon icon = new ImageIcon("risk_logo.png");
         JLabel iconLabel = new JLabel(icon);
         iconLabel.setBorder(new EmptyBorder(0, 0, 10, 0));
-        gameTextField = new JTextArea("Welcome to RISK Game!\nHow many players?");
+        gameTextField = new JTextArea("\nHow many players?");
         gameTextField.setBackground(background);
         gameTextField.setForeground(fontsMain);
         gameTextField.setEditable(false);
@@ -120,7 +256,7 @@ public class GameView {
         gameTfPanel.add(gameTextField, BorderLayout.SOUTH);
         container.add(buttonGrid);
         container.add(gameTfPanel);
-        gameFrame.revalidate();
+        //gameFrame.revalidate();
     }
 
     //screen 2: Count number of AI Players
@@ -229,9 +365,7 @@ public class GameView {
     // screen 4: Main game screen
     public void createGameScreen() {
 
-        mainTextPanel.setVisible(false);
-        inputPanel.setVisible(false);
-        okButtonPanel.setVisible(false);
+        
 
         topPanel = new JPanel();
         topPanel.setBounds(200, 10, 800, 100);
@@ -317,6 +451,22 @@ public class GameView {
             middleTextArea[i].setText(report);
             i++;
         }
+    }
+    
+    public void loadScreenFiles()
+    {
+    	File f = new File("saves/");
+		
+		File[] files = f.listFiles();
+		
+		int count = 1;
+		
+		for(int i = 0; i < filesCount; i++)
+		{
+			loadMiddleTextArea[i].setText(count + ") " + files[i].getName());
+			
+			count++;
+		}
     }
 
     // Doing turn.
@@ -719,5 +869,48 @@ public class GameView {
 
     public void setAiPlayerCount(int aiPlayerCount) {
         this.aiPlayerCount = aiPlayerCount;
+    }
+    
+    public int getFilesCount()
+    {
+    	return filesCount;
+    }
+    
+    public void setFilesCount(int filesCount)
+    {
+    	this.filesCount = filesCount;
+    }
+    
+    public String save()
+    {
+    	String filename = (String) (JOptionPane.showInputDialog(null, "Enter the filename to save the game", "Save Game", JOptionPane.PLAIN_MESSAGE));
+    
+    	return filename;
+    }
+    
+    public int askSave()
+    {
+    	int ask = JOptionPane.showConfirmDialog(null, "Do you want to save the game?", "Save Game", JOptionPane.YES_NO_OPTION);
+    	
+    	return ask;
+    }
+    
+    public void addMainMenuListener(ActionListener al)
+    {
+    	for (JButton button : mainMenuButtons) {
+            button.addActionListener(al);
+        }
+    }
+    
+    public void setInvisible1()
+    {
+    	mainTextPanel.setVisible(false);
+        inputPanel.setVisible(false);
+        okButtonPanel.setVisible(false);
+    }
+    
+    public void noSavedGamesTrue()
+    {
+    	noSavedGames.setText("No Saved Games");
     }
 }

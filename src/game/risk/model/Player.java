@@ -1,5 +1,6 @@
 package game.risk.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,9 +10,11 @@ import java.util.ArrayList;
  * @author Jatin, Adityo
  * @version 1.0
  */
-public class Player {
+public class Player implements Serializable{
 
-	private final String name;
+	private static final long serialVersionUID = -3909587246342401960L;
+	
+	private final String name, playerType;
 	private int armies;
 	private final int playerNumber;
 	private ArrayList<Country> occupiedCountries;
@@ -23,13 +26,14 @@ public class Player {
 	 * @param armies - number of total armies player has
 	 * @param playerNumber - unique player number (1, 2, etc.)
 	 */
-	public Player(String player, int armies, int playerNumber) {
+	public Player(String player, int armies, int playerNumber, String playerType) {
 
 		this.name = player;
 		this.armies = armies;
 		this.playerNumber = playerNumber;
 		this.occupiedContinents = new ArrayList<>();
 		this.occupiedCountries = new ArrayList<>();
+		this.playerType = playerType;
 
 	}
 
@@ -104,6 +108,11 @@ public class Player {
 	public int getPlayerNumber() 
 	{
 		return playerNumber;
+	}
+	
+	public String getPlayerType()
+	{
+		return playerType;
 	}
 	
 }

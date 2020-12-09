@@ -2,6 +2,7 @@ package game.risk.controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,9 +14,11 @@ import game.risk.model.Country;
  * @author Adityo, Tejash, Jatin
  * @version 1.0
  */
-public class DataFetcher {
+public class DataFetcher implements Serializable{
 
-    private final ArrayList<Continent> continents;
+	private static final long serialVersionUID = -5222823757770698903L;
+	
+	private final ArrayList<Continent> continents;
     private final ArrayList<Country> countries;
 
     /**

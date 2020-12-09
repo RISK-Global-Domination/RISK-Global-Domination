@@ -1,5 +1,6 @@
 package game.risk.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,9 +10,11 @@ import java.util.ArrayList;
  * @author Tejash, Lynn
  * @version 1.0
  */
-public class Country implements Comparable<Country> {
+public class Country implements Comparable<Country>, Serializable {
 
-    private String name;
+	private static final long serialVersionUID = 8075046857902216959L;
+	
+	private String name;
     private ArrayList<Country> joining;
     private int armies;
     private Player occupant;

@@ -1,5 +1,6 @@
 package game.risk.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -11,9 +12,11 @@ import game.risk.controller.DataFetcher;
  * @author Tejash, Lynn
  * @version 1.0
  */
-public class GameModel {
+public class GameModel implements Serializable{
 
-    private final ArrayList<Country> countries;
+	private static final long serialVersionUID = 8173736132735227034L;
+	
+	private final ArrayList<Country> countries;
     private final ArrayList<Continent> continents;
     private final DataFetcher fetcher;
 
@@ -54,5 +57,4 @@ public class GameModel {
     public void shuffleCountries() {
         Collections.shuffle(countries);
     }
-
 }
