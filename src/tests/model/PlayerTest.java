@@ -12,7 +12,7 @@ public class PlayerTest {
 
     @Before
     public void setUp() throws Exception {
-        p = new Player("John", 5 , 1);
+        p = new Player("John", 5 , 1, "bot");
     }
 
     @org.junit.Test
