@@ -2,6 +2,9 @@ package game.risk.controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,6 +31,24 @@ public class DataFetcher {
         this.readCountries();
         this.readContinents();
 
+    }
+
+    /**
+     * Retrieve String into file
+     *
+     * @param file file coosen from dialog
+     * @return String into file
+     */
+    public static String readFileAsString(File file) {
+        if (file != null) {
+            try {
+                return Files.readString(file.toPath(), StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                System.err.println(e.getLocalizedMessage());
+                System.out.println("Unable to open file: " + file.getAbsolutePath() + " error: " + e.getLocalizedMessage());
+            }
+        }
+        return null;
     }
 
     /**
