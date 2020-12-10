@@ -66,4 +66,4 @@ For milestone 4, the following design decisions were made:
 
 # Roadmap Ahead
 - Work on known issues of milestone 4
-- Continue improving the game after course is over and add additional features like a graph for representing countries, etc.
+- Continue improving the game after course is over and add additional features like a graph for representing countries and much more!
