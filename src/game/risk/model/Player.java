@@ -16,6 +16,8 @@ public class Player {
 	private final int playerNumber;
 	private ArrayList<Country> occupiedCountries;
 	private ArrayList<Continent> occupiedContinents;
+	// added for know if player is an ai
+	private boolean ai = false;
 
 	/**
 	 * Constructor for Player, takes in the name of the player and the number of armies of the player.
@@ -31,6 +33,14 @@ public class Player {
 		this.occupiedContinents = new ArrayList<>();
 		this.occupiedCountries = new ArrayList<>();
 
+	}
+
+	public boolean isAi() {
+		return ai;
+	}
+
+	public void setAi(boolean ai) {
+		this.ai = ai;
 	}
 
 	/**
