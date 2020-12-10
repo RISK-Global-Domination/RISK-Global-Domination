@@ -367,7 +367,7 @@ public class GameController {
         view.setActionOnSaveMenuItem((event) -> {
             File file = chooseFile(true);
             if (file != null) {
-                file = new File(file.getAbsolutePath() + ".txt");
+                file = new File(file.getAbsolutePath() + ".json");
                 final String json = handler.toJson(buildStatusSave());
                 try (PrintStream out = new PrintStream(new FileOutputStream(file))) {
                     out.print(json);
@@ -537,7 +537,7 @@ public class GameController {
         j.setAcceptAllFileFilterUsed(false);
         j.setFileFilter(new FileFilter() {
             public String getDescription() {
-                return "Text File (.txt)";
+                return "JSON file (.json)";
             }
 
             public boolean accept(File f) {
@@ -545,7 +545,7 @@ public class GameController {
                     return true;
                 } else {
                     String filename = f.getName().toLowerCase();
-                    return filename.endsWith(".txt") || filename.endsWith(".txt");
+                    return filename.endsWith(".json") || filename.endsWith(".json");
                 }
             }
         });
