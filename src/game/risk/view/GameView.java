@@ -28,6 +28,7 @@ public class GameView {
     // font colors
     private final Color background = Color.BLACK;
     private final Color fontsMain = Color.CYAN;
+    private final Color fontsButton = Color.GREEN;
     private final Color fontsSecondary = Color.WHITE;
     // Menu Top Bar
     private final JMenuBar menuBar;
@@ -150,7 +151,7 @@ public class GameView {
         for (int i = 0; i < buttons.length; i++) {
             JButton b = new JButton(i + 2 + "");
             b.setBackground(background);
-            b.setForeground(fontsSecondary);
+            b.setForeground(fontsButton);
             b.setFont(titleFont);
             b.setFocusPainted(false);
             b.setActionCommand(i + 2 + "");
@@ -191,7 +192,7 @@ public class GameView {
         for (int i = 0; i < aiButtons.length; i++) {
             JButton b = new JButton(i + "");
             b.setBackground(background);
-            b.setForeground(fontsSecondary);
+            b.setForeground(fontsButton);
             b.setFont(titleFont);
             b.setFocusPainted(false);
 
@@ -261,7 +262,7 @@ public class GameView {
 
         ok = new JButton("OK");
         ok.setBackground(background);
-        ok.setForeground(fontsMain);
+        ok.setForeground(fontsButton);
         ok.setFont(titleFont);
 
         okButtonPanel.add(ok);
