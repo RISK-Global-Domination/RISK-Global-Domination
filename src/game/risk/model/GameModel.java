@@ -13,8 +13,8 @@ import game.risk.controller.DataFetcher;
  */
 public class GameModel {
 
-    private final ArrayList<Country> countries;
-    private final ArrayList<Continent> continents;
+    private ArrayList<Country> countries;
+    private ArrayList<Continent> continents;
     private final DataFetcher fetcher;
 
     /**
@@ -53,6 +53,14 @@ public class GameModel {
      */
     public void shuffleCountries() {
         Collections.shuffle(countries);
+    }
+
+    public void customCountries(ArrayList<Country> cntr) {
+        this.countries = cntr;
+    }
+
+    public void customContinents(ArrayList<Continent> cntnt) {
+        this.continents = cntnt;
     }
 
 }
