@@ -60,14 +60,15 @@ public class GameController {
 
         Random random = new Random();
         // Setting up random values..
-        for (int i = 0; i < model.getCountries().size(); i++) {
-            int index = i / (42 / players.size());
+        int numberOfCountries = model.getCountries().size();
+        for (int i = 0; i < numberOfCountries; i++) {
+            int index = i / (numberOfCountries / players.size());
             int decreaser;
             if (index == players.size()) {
                 index--;
             }
             if (players.get(index).getArmies() != 0) {
-                if (((i + 1) / (42 / players.size())) != index) {
+                if (((i + 1) / (numberOfCountries / players.size())) != index) {
                     model.getCountries().get(i).setArmies(players.get(index).getArmies());
                     decreaser = players.get(index).getArmies();
                 } else {
@@ -343,7 +344,7 @@ public class GameController {
 
     private boolean isEnd() {
         for (Player player : players) {
-            if (player.getOccupiedCountries().size() == 42) {
+            if (player.getOccupiedCountries().size() == model.getCountries().size()) {
                 return true;
             }
         }
@@ -352,7 +353,7 @@ public class GameController {
 
     private String getWinner() {
         for (Player player : players) {
-            if (player.getOccupiedCountries().size() == 42) {
+            if (player.getOccupiedCountries().size() == model.getCountries().size()) {
                 return player.getName();
             }
         }
