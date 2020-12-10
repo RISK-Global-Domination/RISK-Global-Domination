@@ -1,0 +1,113 @@
+
+{
+    "continents": [
+        {
+            "name": "Africa",
+            "countries": [
+                "South Africa",
+                "Madagascar",
+                "Egypt",
+                "Congo"
+            ]
+        },
+        {
+            "name": "Asia",
+            "countries": [
+                "China",
+                "India",
+                "Japan",
+                "Siam"
+            ]
+        }
+    ],
+    "countries": [
+        {
+            "name": "South Africa",
+            "joining": [
+                "Madagascar",
+                "Egypt",
+                "Congo",
+                "China"
+            ]
+        },
+        {
+            "name": "Madagascar",
+            "joining": [
+                "South Africa",
+                "Egypt",
+                "Congo",
+                "China",
+                "India",
+                "Japan"
+            ]
+        },
+        {
+            "name": "Egypt",
+            "joining": [
+                "South Africa",
+                "Madagascar",
+                "Congo",
+                "China",
+                "India",
+                "Japan",
+                "Siam"
+            ]
+        },
+        {
+            "name": "Congo",
+            "joining": [
+                "South Africa",
+                "Madagascar",
+                "Egypt",
+                "China",
+                "India",
+                "Japan",
+                "Siam"
+            ]
+        },
+        {
+            "name": "China",
+            "joining": [
+                "South Africa",
+                "Madagascar",
+                "Egypt",
+                "Congo",
+                "India",
+                "Japan",
+                "Siam"
+            ]
+        },
+        {
+            "name": "India",
+            "joining": [
+                "Madagascar",
+                "Egypt",
+                "Congo",
+                "China",
+                "Japan",
+                "Siam"
+            ]
+        },
+        {
+            "name": "Japan",
+            "joining": [
+                "Madagascar",
+                "Egypt",
+                "Congo",
+                "China",
+                "India",
+                "Siam"
+            ]
+        },
+        {
+            "name": "Siam",
+            "joining": [
+                "Egypt",
+                "Congo",
+                "China",
+                "India",
+                "Japan"
+            ]
+        }
+    ]
+}
