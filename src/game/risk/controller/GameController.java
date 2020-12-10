@@ -1,25 +1,21 @@
 package game.risk.controller;
 
-import game.risk.model.*;
-import game.risk.view.GameView;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileSystemView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
+import javax.swing.JOptionPane;
+
+import game.risk.model.GameModel;
+import game.risk.model.Player;
+import game.risk.view.GameView;
 
 /**
  * Executes the Game's status, allows the command of Forfeiting,
  * conquering a country with the number of armies you want to go with,
  * roll dixe, end a turn and get the winner of the game.
- *
  * @author Tejash, Jatin, Lynn, Adityo
  * @version 1.0
  */
@@ -32,7 +28,6 @@ public class GameController {
 
     /**
      * Constructor for GameController, takes in model and view.
-     *
      * @param model
      * @param view
      */
@@ -48,7 +43,6 @@ public class GameController {
      * Executes the game and shows the Welcome Screen
      */
     public void execute() {
-        this.loadMenuItems();
         view.createPlayerCountScreen();
         view.addPlayerCountListener(new PlayerCountListener());
     }
@@ -101,8 +95,8 @@ public class GameController {
                     do {
                         view.takeTurn(player);
                         // Place Bonus Armies
-                        int bonusArmy = Math.max(3, player.getOccupiedCountries().size() / 3 +
-                                player.getOccupiedContinents().size() * 2);
+                        int bonusArmy = Math.max(3, player.getOccupiedCountries().size()/3 +
+                                player.getOccupiedContinents().size()*2);
                         to = view.toLand_BonusArmy(player, bonusArmy);
                         to = getFromIndex(player, to);
                         model.getCountries().get(to).updateArmies(bonusArmy);
@@ -132,8 +126,8 @@ public class GameController {
                     do {
                         view.takeTurn(player);
 
-                        int bonusArmy = Math.max(3, player.getOccupiedCountries().size() / 3 +
-                                player.getOccupiedContinents().size() * 2);
+                        int bonusArmy = Math.max(3, player.getOccupiedCountries().size()/3 +
+                                player.getOccupiedContinents().size()*2);
 
                         to = view.aitoLand_BonusArmy(player, bonusArmy);
                         to = getFromIndex(player, to);
@@ -359,207 +353,6 @@ public class GameController {
         return null;
     }
 
-    /**
-     * Load menu actions
-     */
-    private void loadMenuItems() {
-        JsonHandler handler = new JsonHandler();
-        view.setActionOnSaveMenuItem((event) -> {
-            File file = chooseFile(true);
-            if (file != null) {
-                file = new File(file.getAbsolutePath() + ".txt");
-                final String json = handler.toJson(buildStatusSave());
-                try (PrintStream out = new PrintStream(new FileOutputStream(file))) {
-                    out.print(json);
-                    view.errorMessage("", "Game Saved");
-                } catch (FileNotFoundException e) {
-                    view.errorMessage("", "Unable to save file into: " + file.getAbsolutePath());
-                }
-
-            }
-        });
-        view.setActionOnLoadMenuItem((event) -> {
-            final File file = chooseFile(false);
-            if (file != null) {
-                final String jsonSave = DataFetcher.readFileAsString(file);
-                if (jsonSave != null && !jsonSave.trim().isEmpty()) {
-                    buildGameState(handler.fromJson(jsonSave, SaveData.class));
-                }
-            }
-        });
-        view.setActionOnLoadMApMenuItem((event) -> {
-            final File file = chooseFile(false);
-            if (file != null) {
-                final String jsonMap = DataFetcher.readFileAsString(file);
-                if (jsonMap != null && !jsonMap.trim().isEmpty()) {
-                    loadCustomMap(handler.fromJson(jsonMap, CustomMap.class));
-                }
-            }
-        });
-    }
-
-    /*
-        Load custom map
-    */
-    private void loadCustomMap(CustomMap fromJson) {
-        if (fromJson.getContinents() == null || fromJson.getContinents().isEmpty()) {
-            view.showMessageDialog("Invalid map, no Continents found");
-            return;
-        }
-        if (fromJson.getCountries() == null || fromJson.getCountries().isEmpty()) {
-            view.showMessageDialog("Invalid map, no Countries found");
-            return;
-        }
-        // let's build countries
-        HashMap<String, Country> processing = new HashMap<>();
-        for (CustomMap.Country country : fromJson.getCountries()) {
-            if (country.getJoining() == null || country.getJoining().isEmpty()) {
-                view.showMessageDialog("Country: " + country.getName() + " have no joining");
-                return;
-            }
-            // check if country already allocated
-            Country found = processing.get(country.getName());
-            if (found == null) {
-                found = new Country(country.getName());
-                processing.put(found.getName(), found);
-            }
-            // Add joining country to actual evaluation
-            for (String countryName : country.getJoining()) {
-                Country joined = processing.get(countryName);
-                if (joined == null) {
-                    joined = new Country(countryName);
-                    processing.put(countryName, joined);
-                }
-                if (found.getJoining() == null) {
-                    found.setJoining(new ArrayList<>());
-                }
-                found.getJoining().add(joined);
-            }
-        }
-        // Let Build Cointinents
-        ArrayList<Continent> finalContinent = new ArrayList<>();
-        for (CustomMap.Continent continent : fromJson.getContinents()) {
-            final Continent cntnt = new Continent(continent.getName(), new ArrayList<>());
-            for (String country : continent.getCountries()) {
-                final Country state = processing.get(country);
-                if (state == null) {
-                    view.errorMessage("", "Country: " + country + " present into continent: " + continent.getName() + " is invalid ");
-                    return;
-                }
-                cntnt.getCountries().add(state);
-            }
-            finalContinent.add(cntnt);
-        }
-        model.customContinents(finalContinent);
-        model.customCountries(new ArrayList<>(processing.values()));
-        view.showMessageDialog("Map Loaded");
-    }
-
-    /*
-      Convert game state into save data. For do it simply save player status
-     */
-    private SaveData buildStatusSave() {
-        SaveData data = new SaveData();
-        for (Player player : players) {
-            SaveData.Player dataPlayer = new SaveData.Player(player.getName(), player.getPlayerNumber(), player.getArmies());
-            if (player.getOccupiedContinents() != null && !player.getOccupiedContinents().isEmpty()) {
-                dataPlayer.getOccupiedContinent().addAll(player.getOccupiedContinents().stream().map(Continent::getName).collect(Collectors.toList()));
-            }
-            if (player.getOccupiedCountries() != null && !player.getOccupiedCountries().isEmpty()) {
-                dataPlayer.getOccupiedCountry().addAll(player.getOccupiedCountries().stream().map(c -> new SaveData.Country(c.getName(), c.getArmies())).collect(Collectors.toList()));
-            }
-            dataPlayer.setIa(player.isIa());
-            data.getPlayers().add(dataPlayer);
-        }
-        return data;
-    }
-
-
-    /*
-      Convert save data into game data.
-     */
-    private void buildGameState(SaveData data) {
-        view.setPlayerCount(data.getPlayers().size());
-        view.setAiPlayerCount(0);
-        // convert countries as map
-        Map<String, Country> countryMap =
-                model.getCountries().stream().collect(Collectors.toMap(Country::getName, c -> c));
-        final Map<String, Continent> continentMap =
-                model.getContinents().stream().collect(Collectors.toMap(Continent::getName, ct -> ct));
-        for (SaveData.Player player : data.getPlayers()) {
-            if (players == null) {
-                players = new ArrayList<>();
-            }
-            final Player riskPlayer = new Player(player.getPlayerName(), player.getArmies(), player.getPlayerNumber());
-            riskPlayer.setIa(player.getIa());
-            if (player.getIa()) {
-                view.setAiPlayerCount(view.getAiPlayerCount() + 1);
-            }
-            players.add(riskPlayer);
-            for (SaveData.Country cc : player.getOccupiedCountry()) {
-                final Country country = countryMap.get(cc.getName());
-                if (country == null) {
-                    view.errorMessage("", "Invalid save data, maybe custom map?");
-                    players = new ArrayList<>();
-                    view.setPlayerCount(0);
-                    view.setAiPlayerCount(0);
-                    return;
-                }
-                country.setArmies(cc.getArmies());
-                country.setOccupant(riskPlayer);
-                riskPlayer.conqueredCountry(country);
-            }
-            for (String ct : player.getOccupiedContinent()) {
-                final Continent continent = continentMap.get(ct);
-                if (continent == null) {
-                    view.errorMessage("", "Invalid save data, maybe custom map?");
-                    players = new ArrayList<>();
-                    view.setPlayerCount(0);
-                    view.setAiPlayerCount(0);
-                    return;
-                }
-                riskPlayer.conqueredContinent(continent);
-            }
-        }
-        view.createGameScreen();
-        startGame();
-    }
-
-    /**
-     * Retrieve file from FileSystem
-     *
-     * @param save Show save button if true, open otherwise
-     * @return File if found or null if action aborted
-     */
-    private File chooseFile(boolean save) {
-        // Chooser Dialog
-        JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        j.setAcceptAllFileFilterUsed(false);
-        j.setFileFilter(new FileFilter() {
-            public String getDescription() {
-                return "Text File (.txt)";
-            }
-
-            public boolean accept(File f) {
-                if (f.isDirectory()) {
-                    return true;
-                } else {
-                    String filename = f.getName().toLowerCase();
-                    return filename.endsWith(".txt") || filename.endsWith(".txt");
-                }
-            }
-        });
-        // show dialog
-        int r = save ? j.showSaveDialog(null) : j.showOpenDialog(null);
-        // if the user selects a file
-        if (r == JFileChooser.APPROVE_OPTION) {
-            // set the label to the path of the selected file
-            return j.getSelectedFile();
-        }
-        // if the user cancelled the operation
-        else return null;
-    }
-
     public class PlayerCountListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -594,14 +387,8 @@ public class GameController {
                 default -> throw new RuntimeException("Player count should be between 2 to 6.");
             };
 
-            final int aiPlayerCount = view.getAiPlayerCount();
-
             for (int i = 0; i < playerCount; i++) {
-                final Player e = new Player(view.getNames()[i].getText(), armies, i);
-                if (i >= aiPlayerCount) {
-                    e.setIa(true);
-                }
-                players.add(e);
+                players.add(new Player(view.getNames()[i].getText(), armies, i));
             }
 
             view.createGameScreen();
