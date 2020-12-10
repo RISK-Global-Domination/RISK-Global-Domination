@@ -36,7 +36,7 @@ public class DataFetcher {
     /**
      * Retrieve String into file
      *
-     * @param file file coosen from dialog
+     * @param file file chosen from dialog
      * @return String into file
      */
     public static String readFileAsString(File file) {
