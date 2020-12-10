@@ -1,17 +1,18 @@
 package game.risk.view;
 
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.stream.IntStream;
+import game.risk.model.Country;
+import game.risk.model.Player;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-
-import game.risk.model.Country;
-import game.risk.model.Player;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 /**
  * Return the report of the game, fetches players, the countries attacked and errors.
@@ -21,22 +22,31 @@ import game.risk.model.Player;
  */
 public class GameView {
 
-    private int playerCount, aiPlayerCount;
-
     // components - screen 1 (Welcome screen - choose number of players)
     private final JFrame gameFrame;
     private final Container container;
+    // font colors
+    private final Color background = Color.BLACK;
+    private final Color fontsMain = Color.CYAN;
+    private final Color fontsSecondary = Color.WHITE;
+    // Menu Top Bar
+    private final JMenuBar menuBar;
+    // fonts
+    Font titleFont = new Font("Times New Roman", Font.PLAIN, 70);
+    Font normalFont = new Font("Times New Roman", Font.PLAIN, 28);
+    private JMenuItem saveMenuItem;
+    private JMenuItem loadMenuAction;
+    private JMenuItem loadCustomMap;
+    private int playerCount, aiPlayerCount;
     private JPanel gameTfPanel;
     private JTextArea gameTextField;
     private JPanel buttonGrid;
     private JButton[] buttons;
-
     //components - aicount screen - (Choose number of ai players)
     private JPanel aiPanel;
     private JTextArea aiTextField;
     private JPanel aiButtonGrid;
     private JButton[] aiButtons;
-
     // components - screen 3 - (Add names of players and bots)
     private JPanel mainTextPanel;
     private JTextArea mainTextArea;
@@ -44,7 +54,6 @@ public class GameView {
     private JTextField[] names;
     private JPanel okButtonPanel;
     private JButton ok;
-
     // components - 4 - main game screen (shows game board, who's turn, status of the game)
     private JPanel topPanel;
     private JLabel topLabel;
@@ -56,15 +65,6 @@ public class GameView {
     private JTextArea bottomLabelRight;
     private JTextArea statusLabel;
     private JPanel statusPanel;
-
-    // fonts
-    Font titleFont = new Font("Times New Roman", Font.PLAIN, 70);
-    Font normalFont = new Font("Times New Roman", Font.PLAIN, 28);
-
-    // font colors
-    private final Color background = Color.BLACK;
-    private final Color fontsMain = Color.CYAN;
-    private final Color fontsSecondary = Color.WHITE;
 
     /**
      * Constructor - GameView
@@ -79,6 +79,48 @@ public class GameView {
         gameFrame.setSize(1200, 800);
         gameFrame.setVisible(true);
 
+        //Create the menu bar.
+        menuBar = new JMenuBar();
+        buildMenuBar();
+        gameFrame.setJMenuBar(menuBar);
+
+    }
+
+    private void buildMenuBar() {
+
+        // Build the file menu
+        JMenu menu = new JMenu("File");
+        menu.setMnemonic(KeyEvent.VK_A);
+        menu.getAccessibleContext().setAccessibleDescription(
+                "Main Menu");
+        menuBar.add(menu);
+
+        // Save Menu Point
+        saveMenuItem = new JMenuItem("Save Game",
+                KeyEvent.VK_T);
+        saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_1, ActionEvent.ALT_MASK));
+        saveMenuItem.getAccessibleContext().setAccessibleDescription(
+                "Save current game");
+        menu.add(saveMenuItem);
+
+        // Save Action
+        loadMenuAction = new JMenuItem("Load Game",
+                KeyEvent.VK_T);
+        loadMenuAction.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_2, ActionEvent.ALT_MASK));
+        loadMenuAction.getAccessibleContext().setAccessibleDescription(
+                "Load a saved game");
+        menu.add(loadMenuAction);
+        menu.addSeparator();
+        // Load Custom Map
+        loadCustomMap = new JMenuItem("Load Custom Map",
+                KeyEvent.VK_T);
+        loadCustomMap.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_3, ActionEvent.ALT_MASK));
+        loadCustomMap.getAccessibleContext().setAccessibleDescription(
+                "Load a custom map");
+        menu.add(loadCustomMap);
     }
 
     // Screen 1 : Count Player Number
@@ -229,9 +271,15 @@ public class GameView {
     // screen 4: Main game screen
     public void createGameScreen() {
 
-        mainTextPanel.setVisible(false);
-        inputPanel.setVisible(false);
-        okButtonPanel.setVisible(false);
+        if (mainTextPanel != null) mainTextPanel.setVisible(false);
+        if (inputPanel != null) inputPanel.setVisible(false);
+        if (okButtonPanel != null) okButtonPanel.setVisible(false);
+
+        if (gameTfPanel != null) gameTfPanel.setVisible(false);
+        if (buttonGrid != null) buttonGrid.setVisible(false);
+
+        if (aiPanel != null) aiPanel.setVisible(false);
+        if (aiButtonGrid != null) aiButtonGrid.setVisible(false);
 
         topPanel = new JPanel();
         topPanel.setBounds(200, 10, 800, 100);
@@ -301,6 +349,7 @@ public class GameView {
 
     /**
      * Prints the game report onto the Game Board section in GUI
+     *
      * @param players - list of players
      */
     public void completeReport(ArrayList<Player> players) {
@@ -677,6 +726,11 @@ public class GameView {
         statusLabel2.setText("You don't have enough soldiers to move.");
     }
 
+    public void errorMessage(String textLabel1, String textLabel2) {
+        statusLabel.setText(textLabel1);
+        statusLabel2.setText(textLabel2);
+    }
+
     public void moveTroupes() {
         topLabel.setText("MOVE TROUPES PHASE");
     }
@@ -705,12 +759,12 @@ public class GameView {
         return playerCount;
     }
 
-    public JTextField[] getNames() {
-        return names;
-    }
-
     public void setPlayerCount(int playerCount) {
         this.playerCount = playerCount;
+    }
+
+    public JTextField[] getNames() {
+        return names;
     }
 
     public int getAiPlayerCount() {
@@ -720,4 +774,27 @@ public class GameView {
     public void setAiPlayerCount(int aiPlayerCount) {
         this.aiPlayerCount = aiPlayerCount;
     }
+
+    public void setActionOnSaveMenuItem(ActionListener function) {
+        if (saveMenuItem != null) {
+            saveMenuItem.addActionListener(function);
+        }
+    }
+
+    public void setActionOnLoadMenuItem(ActionListener function) {
+        if (loadMenuAction != null) {
+            loadMenuAction.addActionListener(function);
+        }
+    }
+
+    public void setActionOnLoadMApMenuItem(ActionListener function) {
+        if (loadCustomMap != null) {
+            loadCustomMap.addActionListener(function);
+        }
+    }
+
+    public void showMessageDialog(String message){
+        JOptionPane.showMessageDialog(gameFrame, message);
+    }
+
 }
